@@ -1,14 +1,17 @@
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerRodControl : MonoBehaviour
 {
 
-    public GameObject defaultRodRotation;
+    public GameObject defaultRodRotLoc;
     public GameObject reelFishRodRotation;
     public GameObject fishingRod;
     public GameObject fishPullRodRotation;
+    public GameObject fishCaughtLocRot;
     public float speed;
+    public GameObject fishCaughtPopup;
 
     bool runTimer;
 
@@ -25,14 +28,16 @@ public class playerRodControl : MonoBehaviour
 
     public bool rodPulledBack;
 
+    public bool moveRodToBucket;
 
+    public Slider fishingSlider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         speed = 2;
-        fishingRod.transform.rotation = defaultRodRotation.transform.rotation;
-        fishingRod.transform.position = defaultRodRotation.transform.position;
+        fishingRod.transform.rotation = defaultRodRotLoc.transform.rotation;
+        fishingRod.transform.position = defaultRodRotLoc.transform.position;
 
 
         elapsedTime = 0f;
@@ -48,11 +53,20 @@ public class playerRodControl : MonoBehaviour
         fishCaught = false;
 
         rodPulledBack = false;
+
+        moveRodToBucket = false;   
+    
+        fishCaughtPopup.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        fishingSlider.value = fishReelCounter;
+
+
+
         if (fishCaught == false)
         {
             if (Input.GetKey(KeyCode.S) && fishBite == true)
@@ -63,28 +77,44 @@ public class playerRodControl : MonoBehaviour
             }
             else
             {
-                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotation.transform.rotation, speed * Time.deltaTime);
+                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * Time.deltaTime);
             }
 
             if (Input.GetKeyDown(KeyCode.N) && fishBite == true && rodPulledBack == true)
             {
-                if (fishReelCounter >= 20)
+                fishReelCounter++;
+                if (fishReelCounter == 20)//press 20 times to reel fish
                 {
                     fishCaught = true;
+                    moveRodToBucket = true;
                     Debug.Log("fish caught!");
+                    fishCaughtPopup.SetActive(true);
+
+                    //add fish caught total up by 1<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 }
-                else
-                {
-                    fishReelCounter++;
-                }
+
             }
         }
         if (fishCaught == true)
         {
-            //move fish to buckets loc and rot
+         
+            if (moveRodToBucket == true)
+            {
+                //move fish to buckets loc and rot
+                fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, fishCaughtLocRot.transform.position, speed * Time.deltaTime);
+                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, fishCaughtLocRot.transform.rotation, speed * 2 * Time.deltaTime);
+            }
+            else
+            {
+                //move fish to default loc and rot
+                fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, defaultRodRotLoc.transform.position, speed * Time.deltaTime);
+                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 2 * Time.deltaTime);
+            }
 
-            //move rod back to default loc and rot
-            //reset values here
+
+            Invoke("moveRodBack", 4);
+            //splash effect<<<<<<<<<<<<<<<<<<<<<<
+            Invoke("defaultRod", 6);
         }
 
 
@@ -100,16 +130,6 @@ public class playerRodControl : MonoBehaviour
                 Debug.Log("fish bite!");
 
 
-                savedElapsedTime = elapsedTime;
-                if (elapsedTime > savedElapsedTime+5) //if player not reeled fish 5 seconds after bite
-                {
-                    fishingRod.transform.rotation = Quaternion.RotateTowards(fishingRod.transform.rotation, defaultRodRotation.transform.rotation, speed * 50 * Time.deltaTime);
-                    elapsedTime = 0f;
-                    fishBite = false;
-                    timerLength = Random.Range(2f, 5f);
-                    Debug.Log("fish lost!");
-
-                }
             }
         }
 
@@ -120,6 +140,30 @@ public class playerRodControl : MonoBehaviour
 
 
     }
+
+     void moveRodBack()
+    {
+        moveRodToBucket = false;
+    }
+
+    void defaultRod()
+    {
+        //make this trigger only once
+        fishingRod.transform.rotation = Quaternion.RotateTowards(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 50 * Time.deltaTime);
+        elapsedTime = 0f;
+        fishBite = false;
+        timerLength = Random.Range(2f, 5f);
+        runTimer = true;
+        fishCaught = false;
+        fishReelCounter = 0;
+        Debug.Log("RESET!");
+        fishCaughtPopup.SetActive(false);
+
+
+        CancelInvoke("moveRodBack");
+        CancelInvoke("defaultRod");
+    }
+
 }
 
 
@@ -145,6 +189,9 @@ public class playerRodControl : MonoBehaviour
 //delete 2nd script
 //on screen effect to visibly show when fish bites (begin to pull back and reel in - bar fills up the more they reel?) + when fish is lost (wait for another to bite), when fish is caught (when x are caught then turn the next fish caught is the relic)
 //if player takes long to reel in fish then the fish is lost
+//hide+show fish model
+// change length of fishing line (OR CHEAT and make fish just move over it vertically
+//if player hasnt pulled back in x seconds then reset
 
 //add bouncy fish and slippery fish
 
