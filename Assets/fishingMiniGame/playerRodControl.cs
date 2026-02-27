@@ -207,13 +207,14 @@ public class playerRodControl : MonoBehaviour
 
 
 //bucket splash effect triggered
-//pull back popup and timer working
+//pull back popup and timer working w/ reset if fail
+// when 5 fish are caught, next fish is the relic.
+// timer vs 20 taps feature w/ working slider
 
-//on screen effect to visibly show when fish bites (begin to pull back and reel in - bar fills up the more they reel?) + when fish is lost (wait for another to bite), when fish is caught (when x are caught then turn the next fish caught is the relic)
-//if player takes long to reel in fish then the fish is lost
+
 //hide+show fish model
 // change length of fishing line (OR CHEAT and make fish just move over it vertically
-//if player hasnt pulled back in x seconds then reset
+
 
 //add bouncy fish and slippery fish
 
