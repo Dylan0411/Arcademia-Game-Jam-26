@@ -32,6 +32,13 @@ public class playerRodControl : MonoBehaviour
 
     public Slider fishingSlider;
 
+    public int fishCaughtTotal;
+
+    public Slider fishCaughtSlider;
+
+    public GameObject fishLostPopup;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,6 +64,9 @@ public class playerRodControl : MonoBehaviour
         moveRodToBucket = false;   
     
         fishCaughtPopup.SetActive(false);
+        fishLostPopup.SetActive(false);
+
+        fishCaughtTotal = 0;
     }
 
     // Update is called once per frame
@@ -64,7 +74,7 @@ public class playerRodControl : MonoBehaviour
     {
 
         fishingSlider.value = fishReelCounter;
-
+        fishCaughtSlider.value = fishCaughtTotal;
 
 
         if (fishCaught == false)
@@ -158,7 +168,7 @@ public class playerRodControl : MonoBehaviour
         fishReelCounter = 0;
         Debug.Log("RESET!");
         fishCaughtPopup.SetActive(false);
-
+        fishCaughtTotal++;
 
         CancelInvoke("moveRodBack");
         CancelInvoke("defaultRod");
