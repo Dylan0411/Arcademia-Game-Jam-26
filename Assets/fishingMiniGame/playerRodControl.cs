@@ -1,4 +1,5 @@
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,6 +37,8 @@ public class playerRodControl : MonoBehaviour
 
     public Slider fishCaughtSlider;
 
+    public bool doOnce;
+
     public GameObject fishLostPopup;
 
 
@@ -67,6 +70,7 @@ public class playerRodControl : MonoBehaviour
         fishLostPopup.SetActive(false);
 
         fishCaughtTotal = 0;
+        doOnce = true;
     }
 
     // Update is called once per frame
@@ -100,7 +104,6 @@ public class playerRodControl : MonoBehaviour
                     Debug.Log("fish caught!");
                     fishCaughtPopup.SetActive(true);
 
-                    //add fish caught total up by 1<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 }
 
             }
@@ -121,7 +124,11 @@ public class playerRodControl : MonoBehaviour
                 fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 2 * Time.deltaTime);
             }
 
-
+            if (doOnce == true)
+            {
+                fishCaughtTotal++;
+                doOnce = false;
+            }
             Invoke("moveRodBack", 4);
             //splash effect<<<<<<<<<<<<<<<<<<<<<<
             Invoke("defaultRod", 6);
@@ -151,6 +158,10 @@ public class playerRodControl : MonoBehaviour
 
     }
 
+    void fishCaughtFunc()
+    {
+        fishCaughtTotal++;
+    }
      void moveRodBack()
     {
         moveRodToBucket = false;
@@ -168,7 +179,7 @@ public class playerRodControl : MonoBehaviour
         fishReelCounter = 0;
         Debug.Log("RESET!");
         fishCaughtPopup.SetActive(false);
-        fishCaughtTotal++;
+        doOnce = true;
 
         CancelInvoke("moveRodBack");
         CancelInvoke("defaultRod");
@@ -195,8 +206,9 @@ public class playerRodControl : MonoBehaviour
  */
 
 
-//animation to move fish to bucket w/ splash effect triggered
-//delete 2nd script
+//bucket splash effect triggered
+//pull back popup and timer working
+
 //on screen effect to visibly show when fish bites (begin to pull back and reel in - bar fills up the more they reel?) + when fish is lost (wait for another to bite), when fish is caught (when x are caught then turn the next fish caught is the relic)
 //if player takes long to reel in fish then the fish is lost
 //hide+show fish model
