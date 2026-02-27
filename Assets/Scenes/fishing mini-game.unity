@@ -147,8 +147,8 @@ Transform:
   m_GameObject: {fileID: 12797867}
   serializedVersion: 2
   m_LocalRotation: {x: -0.38156196, y: 0.14455989, z: -0.20452286, w: 0.8897659}
-  m_LocalPosition: {x: -0.4689, y: 0.2848, z: 1.3773}
-  m_LocalScale: {x: 0.02, y: 1.8790637, z: 0.019999996}
+  m_LocalPosition: {x: -0.53073, y: 0.13239, z: 1.55725}
+  m_LocalScale: {x: 0.02, y: 2.1228535, z: 0.019999996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1960639369}
@@ -367,7 +367,7 @@ Transform:
   m_GameObject: {fileID: 23745022}
   serializedVersion: 2
   m_LocalRotation: {x: -0.38156196, y: 0.14455989, z: -0.20452286, w: 0.8897659}
-  m_LocalPosition: {x: -0.9700085, y: -0.95032287, z: 2.8356183}
+  m_LocalPosition: {x: -1.082, y: -1.227, z: 3.163}
   m_LocalScale: {x: 0.29999998, y: 0.3, z: 0.29999992}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1431,6 +1431,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171963609}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &209866206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 209866207}
+  m_Layer: 0
+  m_Name: fishCaughtBucketLocRot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &209866207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209866206}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.23103951, y: -0.21918634, z: -0.045946237, w: -0.9468195}
+  m_LocalPosition: {x: 0.571, y: 2.879, z: -3.515}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &289025953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,13 +1656,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11167274, y: -0, z: -0, w: 0.9937451}
+  m_LocalRotation: {x: 0.11323269, y: -0, z: -0, w: 0.99356854}
   m_LocalPosition: {x: 0.9, y: 3.006, z: -4.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 12.824, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 13.003, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2453,6 +2484,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687123403}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &701682210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701682211}
+  m_Layer: 0
+  m_Name: fishPulledRodRotation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &701682211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701682210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.38156196, y: -0.14455989, z: 0.20452286, w: 0.8897659}
+  m_LocalPosition: {x: -0.69150066, y: 2.8622, z: -2.3594003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &713448930
 GameObject:
   m_ObjectHideFlags: 0
@@ -6060,7 +6122,7 @@ Transform:
   m_GameObject: {fileID: 1384965027}
   serializedVersion: 2
   m_LocalRotation: {x: -0.38156196, y: 0.14455989, z: -0.20452286, w: 0.8897659}
-  m_LocalPosition: {x: -0.9700085, y: -0.95032287, z: 2.8356183}
+  m_LocalPosition: {x: -1.1, y: -1.272, z: 3.215}
   m_LocalScale: {x: 0.29999998, y: 0.3, z: 0.29999992}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6574,6 +6636,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447353047}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1473585287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1473585288}
+  m_Layer: 0
+  m_Name: reelRodRotation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1473585288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473585287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.011751921, y: -0.21186024, z: 0.13357547, w: 0.9680573}
+  m_LocalPosition: {x: -0.2243874, y: 2.4301758, z: -3.0826418}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1475295423
 GameObject:
   m_ObjectHideFlags: 0
@@ -6902,6 +6995,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533253763}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1582315550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1582315551}
+  m_Layer: 0
+  m_Name: defaultRodRotLoc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1582315551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582315550}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.28711304, y: 0.16501476, z: -0.18840742, w: -0.92457503}
+  m_LocalPosition: {x: -0.536, y: 2.79, z: -2.644}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1610923243
 GameObject:
   m_ObjectHideFlags: 0
@@ -7004,7 +7128,7 @@ Transform:
   m_GameObject: {fileID: 1610923243}
   serializedVersion: 2
   m_LocalRotation: {x: 0.073471054, y: -0, z: -0, w: 0.99729735}
-  m_LocalPosition: {x: 2.0098, y: -2.04, z: 5.98}
+  m_LocalPosition: {x: 2.0098, y: -2.29, z: 5.94}
   m_LocalScale: {x: 140.04405, y: 1.0365663, z: 24.220463}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8441,6 +8565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1960639369}
+  - component: {fileID: 1960639370}
   m_Layer: 0
   m_Name: rod
   m_TagString: Untagged
@@ -8456,8 +8581,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960639368}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38156193, y: -0.14455988, z: 0.20452285, w: 0.88976586}
-  m_LocalPosition: {x: -0.69150066, y: 2.8622, z: -2.3594003}
+  m_LocalRotation: {x: -0.287113, y: 0.16501474, z: -0.1884074, w: -0.924575}
+  m_LocalPosition: {x: -0.536, y: 2.79, z: -2.644}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8473,7 +8598,31 @@ Transform:
   - {fileID: 842521309}
   - {fileID: 885097248}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 24.668, y: 28.692, z: 11.958}
+--- !u!114 &1960639370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960639368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f56c49a344f217649801813aceaebadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultRodRotation: {fileID: 1582315550}
+  reelFishRodRotation: {fileID: 1473585287}
+  fishingRod: {fileID: 1960639368}
+  fishPullRodRotation: {fileID: 701682210}
+  speed: 0
+  timerLength: 0
+  elapsedTime: 0
+  savedElapsedTime: 0
+  fishBite: 0
+  fishReelCounter: 0
+  fishCaught: 0
+  rodPulledBack: 0
 --- !u!1 &1974500661
 GameObject:
   m_ObjectHideFlags: 0
@@ -9301,5 +9450,9 @@ SceneRoots:
   - {fileID: 2055892561}
   - {fileID: 1328422388}
   - {fileID: 1109060142}
+  - {fileID: 701682211}
+  - {fileID: 1473585288}
+  - {fileID: 1582315551}
+  - {fileID: 209866207}
   - {fileID: 1960639369}
   - {fileID: 1180560797}
