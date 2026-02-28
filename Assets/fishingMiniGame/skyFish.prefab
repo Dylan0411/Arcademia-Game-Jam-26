@@ -49,9 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c699eb8688bf2a48b426d63e22eba25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skyFish1: {fileID: 0}
-  skyFish2: {fileID: 0}
-  skyFish3: {fileID: 0}
+  skyFish1: {fileID: 3890210888576876381}
+  skyFish2: {fileID: 496755260431095611}
+  skyFish3: {fileID: 9133130009524679511}
   skyFish4: {fileID: 7009210884068880147}
   skyFish5: {fileID: 5563342551089942775}
   fishBodySelector: 0
