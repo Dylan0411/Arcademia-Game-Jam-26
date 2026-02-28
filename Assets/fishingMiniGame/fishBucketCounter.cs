@@ -62,6 +62,9 @@ public class fishBucketCounter : MonoBehaviour
         elapsedTime = 0;
 
         doOnce = true;
+
+        relic.GetComponent<Rigidbody>().isKinematic = true;
+
     }
 
     // Update is called once per frame
@@ -87,6 +90,7 @@ public class fishBucketCounter : MonoBehaviour
             //relic comes out of fish bucket w/ splash effect
             relic.transform.position = Vector3.MoveTowards(relic.transform.position, relicEndPos.transform.position, 5 * Time.deltaTime);
             relic.transform.Rotate(0, 5 * Time.deltaTime, 0);
+            relic.GetComponent<Rigidbody>().isKinematic = false;
 
             if (doOnce == true)
             {
@@ -165,4 +169,17 @@ public class fishBucketCounter : MonoBehaviour
         fadeScreen = true;
 
     }
+
+
+
+
+
+
+
+
+    //fade screen to black
+    //add behaviour to fish
+
+    //frank to make ui/menus pretty/all sounds/forest in fishing game
+
 }

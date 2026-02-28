@@ -11,6 +11,11 @@ public class splashDespawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Invoke("despawn", 5f);
+    }
+
+    public void despawn()
+    {
+        Destroy(gameObject);
     }
 }

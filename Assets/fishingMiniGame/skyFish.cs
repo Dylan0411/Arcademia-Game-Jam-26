@@ -12,5 +12,6 @@ public class skyFish : MonoBehaviour
     void Update()
     {
         //on fish spawn they either addforce with 0 friction OR bounce around
+        //also decide which look to have
     }
 }
