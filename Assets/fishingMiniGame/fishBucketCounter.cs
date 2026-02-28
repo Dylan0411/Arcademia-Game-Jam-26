@@ -46,6 +46,8 @@ public class fishBucketCounter : MonoBehaviour
 
     public bool doOnce;
     public bool doOnce1;
+    public bool doOnce2;
+
 
     public GameObject pRods;
 
@@ -67,8 +69,9 @@ public class fishBucketCounter : MonoBehaviour
 
         doOnce = true;
         doOnce1 = true;
+        doOnce2 = true;
 
-
+        
         relic.GetComponent<Rigidbody>().isKinematic = true;
 
         relic.SetActive(false);
@@ -137,22 +140,24 @@ public class fishBucketCounter : MonoBehaviour
                 // water freezes over into ice
                 Ice.SetActive(true); //<<<<<<<<DONT FORGET TO MAKE SLIPPY/BOUNCY
 
+                if (doOnce2 == true)
+                {
+                    //fish fall from sky onto ice (instantiate loads)
+                    InstantiateFish();
+                    Invoke("InstantiateFish", 1f);
+                    Invoke("InstantiateFish", 2f);
+                    Invoke("InstantiateFish", 3f);
+                    Invoke("InstantiateFish", 4f);
+                    Invoke("InstantiateFish", 5f);
+                    Invoke("InstantiateFish", 6f);
+                    Invoke("InstantiateFish", 7f);
+                    Invoke("InstantiateFish", 8f);
+                    Invoke("InstantiateFish", 9f);
 
-                //fish fall from sky onto ice (instantiate loads)
-                InstantiateFish();
-                Invoke("InstantiateFish", 1f);
-                Invoke("InstantiateFish", 2f);
-                Invoke("InstantiateFish", 3f);
-                Invoke("InstantiateFish", 4f);
-                Invoke("InstantiateFish", 5f);
-                Invoke("InstantiateFish", 6f);
-                Invoke("InstantiateFish", 7f);
-                Invoke("InstantiateFish", 8f);
-                Invoke("InstantiateFish", 9f);
-                Invoke("InstantiateFish", 10f);
-
-                //fade screen to black
-                Invoke("fadeToBlack", 15f);
+                    //fade screen to black
+                    Invoke("fadeToBlack", 15f);
+                    doOnce2 = false;
+                }
             }
             else
             {
