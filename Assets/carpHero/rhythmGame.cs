@@ -8,17 +8,14 @@ public class rhythmGame : MonoBehaviour
     public GameObject greenNote;
     public GameObject blueNote;
 
-    public float currentTime;
 
-    public float redNoteActivationTime;
-    public float greenNoteActivationTime;
-    public float blueNoteActivationTime;
 
-    public bool redNoteValid;
-    public bool greenNoteValid;
-    public bool blueNoteValid;
+    public float P1score;
 
-    public float validNoteLength = 0.5f;
+    public bool redInside;
+    public bool blueInside;
+    public bool greenInside;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,47 +24,21 @@ public class rhythmGame : MonoBehaviour
         greenNote.SetActive(false);
         blueNote.SetActive(false);
 
-        redNoteActivationTime = 0f;
-        greenNoteActivationTime = 0f;
-        blueNoteActivationTime = 0f;
 
-        redNoteValid = false;
-        greenNoteValid = false;
-        blueNoteValid = false;
+
+        P1score = 0;
+
+        redInside = false;
+        blueInside = false;
+        greenInside = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        currentTime += Time.deltaTime;
 
-        if (currentTime < redNoteActivationTime + validNoteLength)
-        {
-            redNoteValid = true;
-        }
-        else
-        {
-            greenNoteValid = false;
-        }
-
-        if (currentTime < greenNoteActivationTime + validNoteLength)
-        {
-            greenNoteValid = true;
-        }
-        else
-        {
-            redNoteValid = false;
-        }
-
-        if (currentTime < blueNoteActivationTime + validNoteLength)
-        {
-            blueNoteValid = true;
-        }
-        else
-        {
-            blueNoteValid = false;
-        }
 
 
 
@@ -75,17 +46,37 @@ public class rhythmGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             redNote.SetActive(true);
-            redNoteActivationTime = currentTime;
+            if(redInside)
+            {
+                Debug.Log("SCORE!!!");
+                P1score++;
+            }
+            else
+            {
+                Debug.Log("miss!");
+                P1score--;
+            }
         }
+
         if (Input.GetKeyUp(KeyCode.T))
         {
             redNote.SetActive(false);
         }
 
+
         if (Input.GetKeyDown(KeyCode.Y))
         {
             greenNote.SetActive(true);
-            greenNoteActivationTime = currentTime;
+            if (greenInside)
+            {
+                Debug.Log("SCORE!!!");
+                P1score++;
+            }
+            else
+            {
+                Debug.Log("miss!");
+                P1score--;
+            }
         }
         if (Input.GetKeyUp(KeyCode.Y))
         {
@@ -95,11 +86,57 @@ public class rhythmGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             blueNote.SetActive(true);
-            blueNoteActivationTime = currentTime;
+            if (blueInside)
+            {
+                Debug.Log("SCORE!!!");
+                P1score++;
+            }
+            else
+            {
+                Debug.Log("miss!");
+                P1score--;
+            }
         }
         if (Input.GetKeyUp(KeyCode.U))
         {
             blueNote.SetActive(false);
         }
     }
+
+
+
+    //if object with tag: "redNote", is inside box collider then makew redInside bool true, else make it false
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("redNote"))
+        {
+            redInside = true;
+        }
+        if (other.CompareTag("greenNote"))
+        {
+            greenInside = true;
+        }
+        if (other.CompareTag("blueNote"))
+        {
+            blueInside = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("redNote"))
+        {
+            redInside = false;
+        }
+        if (other.CompareTag("greenNote"))
+        {
+            greenInside = false;
+        }
+        if (other.CompareTag("blueNote"))
+        {
+            blueInside = false;
+        }
+    }
+
+
 }

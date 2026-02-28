@@ -5,6 +5,19 @@ TagManager:
   serializedVersion: 3
   tags:
   - fishOnRod
+  - redNoteStartPos
+  - greenNoteStartPos
+  - blueNoteStartPos
+  - redNoteEndPos
+  - greenNoteEndPos
+  - blueNoteEndPos
+  - redNoteGoal
+  - greenNoteGoal
+  - blueNoteGoal
+  - P1Board
+  - redNote
+  - blueNote
+  - greenNote
   layers:
   - Default
   - TransparentFX
