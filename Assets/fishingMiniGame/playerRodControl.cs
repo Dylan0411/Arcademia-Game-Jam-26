@@ -114,6 +114,7 @@ public class playerRodControl : MonoBehaviour
     {
         fishingSlider.value = fishReelCounter;
         fishCaughtSlider.value = fishCaughtTotal;
+        catchFishSlider.value = elapsedTime3;
 
         if (fishBite == true)
         {
@@ -146,7 +147,7 @@ public class playerRodControl : MonoBehaviour
             {
                 CancelInvoke("hideLostFishPopupMessage");
                 elapsedTime3 += Time.deltaTime;
-                catchFishSlider.value = elapsedTime3;
+                
             }
 
 
@@ -184,7 +185,6 @@ public class playerRodControl : MonoBehaviour
                     Debug.Log("fish caught!");
                     fishCaughtPopup.SetActive(true);
                     CancelInvoke("hideLostFishPopupMessage");
-                    fishLostPopup.SetActive(false);
 
                 }
 
@@ -314,6 +314,7 @@ public class playerRodControl : MonoBehaviour
 
         SplashOnce = true;
         elapsedTime3 = 0f;
+        fishLostPopup.SetActive(false);
 
     }
 
