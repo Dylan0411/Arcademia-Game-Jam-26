@@ -6704,6 +6704,7 @@ GameObject:
   - component: {fileID: 1328422387}
   - component: {fileID: 1328422386}
   - component: {fileID: 1328422385}
+  - component: {fileID: 1328422389}
   m_Layer: 0
   m_Name: Cube (33)
   m_TagString: Untagged
@@ -6800,6 +6801,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1328422389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328422384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a36a7ded02b796444b0390ba2adb9b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1350823086
 GameObject:
   m_ObjectHideFlags: 0
@@ -7240,7 +7253,7 @@ GameObject:
   - component: {fileID: 1384965029}
   m_Layer: 0
   m_Name: fish
-  m_TagString: Untagged
+  m_TagString: fishOnRod
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10942,6 +10955,7 @@ MonoBehaviour:
   fish: {fileID: 1384965027}
   fishDownPos: {fileID: 1986209571}
   fishUpPos: {fileID: 1945189824}
+  waterSplash: {fileID: 281995180112101779, guid: 55bfce0fa4a25734c85aa654a5b932d0, type: 3}
   timerLength: 0
   elapsedTime0: 0
   elapsedTime1: 0
@@ -10960,6 +10974,7 @@ MonoBehaviour:
   waitingForFishCircle: {fileID: 461622810}
   PullBackImage: {fileID: 962407312}
   elapsedTime2: 0
+  SplashOnce: 0
 --- !u!1 &1974500661
 GameObject:
   m_ObjectHideFlags: 0
