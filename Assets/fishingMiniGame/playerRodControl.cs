@@ -131,13 +131,22 @@ public class playerRodControl : MonoBehaviour
 
             //begin 4 second timer
             //make slider represent this value
-            elapsedTime3 += Time.deltaTime;
-            catchFishSlider.value = elapsedTime3;
 
 
-            if (elapsedTime3 > 4)
+
+            if (elapsedTime3 > 4 && fishCaught == false)
             {
                 defaultRod();
+                fishLostPopup.SetActive(true);
+                pullBackCircle.SetActive (false);
+                Invoke("hideLostFishPopupMessage", 2f);
+                
+            }
+            else
+            {
+                CancelInvoke("hideLostFishPopupMessage");
+                elapsedTime3 += Time.deltaTime;
+                catchFishSlider.value = elapsedTime3;
             }
 
 
@@ -165,7 +174,7 @@ public class playerRodControl : MonoBehaviour
                 elapsedTime1 = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.N) && fishBite == true && rodPulledBack == true)
+            if (Input.GetKeyDown(KeyCode.N) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
             {
                 fishReelCounter++;
                 if (fishReelCounter == 20)//press 20 times to reel fish
@@ -174,6 +183,8 @@ public class playerRodControl : MonoBehaviour
                     moveRodToBucket = true;
                     Debug.Log("fish caught!");
                     fishCaughtPopup.SetActive(true);
+                    CancelInvoke("hideLostFishPopupMessage");
+                    fishLostPopup.SetActive(false);
 
                 }
 
@@ -181,7 +192,7 @@ public class playerRodControl : MonoBehaviour
         }
         if (fishCaught == true)
         {
-
+            catchFishSlider.value = 0;
             if (moveRodToBucket == true)
             {
                 fish.SetActive(true);
@@ -261,6 +272,10 @@ public class playerRodControl : MonoBehaviour
 
     }
 
+    void hideLostFishPopupMessage()
+    {
+        fishLostPopup.SetActive(false);
+    }
     void fishCaughtFunc()
     {
         fishCaughtTotal++;
