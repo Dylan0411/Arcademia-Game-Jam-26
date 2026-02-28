@@ -2,12 +2,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 
 
 public class fishBucketCounter : MonoBehaviour
 {
 
+    public Image targetImage;
+    public float fadeDuration = 2f;
+
+    private bool isFading = false;
 
     public Slider fishCaughtSlider;
     public GameObject fishingUI;
@@ -58,7 +63,7 @@ public class fishBucketCounter : MonoBehaviour
         Ice.SetActive(false);
         fishCaughtSlider.value = 0;
         pRodScript.enabled = true;
-        pRodScript.enabled = true;
+        pRodScript1.enabled = true;
         relic.transform.position = relicStartPos.transform.position;
         cursedLootUI.SetActive(false);
 
@@ -85,13 +90,10 @@ public class fishBucketCounter : MonoBehaviour
     void Update()
     {
 
-        if(fadeScreen == true)
+        if (fadeScreen && !isFading)
         {
-            ///<<<<<<<<<<<<<<<<<<<<<fade screen to black>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            ///
-
-            //load the rythm game scene when fully black for 2 seconds via an invoke.
-            Invoke("sceneChange", 5f);
+            isFading = true;
+            StartCoroutine(FadeToBlackAndLoad());
         }
 
         fishCaughtSlider.value = playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal;
@@ -202,6 +204,31 @@ public class fishBucketCounter : MonoBehaviour
 
     }
 
+    private IEnumerator FadeToBlackAndLoad()
+    {
+        yield return StartCoroutine(FadeImage(0f, 1f));
 
+        // Wait an extra 2 seconds fully black if you want drama
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("CarpHero");
+    }
+
+    private IEnumerator FadeImage(float startAlpha, float endAlpha)
+    {
+        float elapsedTime = 0f;
+        Color color = targetImage.color;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            color.a = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeDuration);
+            targetImage.color = color;
+            yield return null;
+        }
+
+        color.a = endAlpha;
+        targetImage.color = color;
+    }
 
 }

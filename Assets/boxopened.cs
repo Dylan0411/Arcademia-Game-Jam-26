@@ -45,7 +45,7 @@ public class BoxOpener : MonoBehaviour
         }
         else
         {
-            Debug.LogError("BoxOpener: No object with the tag 'Player' found in the scene!");
+            //Debug.LogError("BoxOpener: No object with the tag 'Player' found in the scene!");
         }
     }
 
