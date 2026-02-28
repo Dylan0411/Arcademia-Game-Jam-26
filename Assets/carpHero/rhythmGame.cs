@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class rhythmGame : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class rhythmGame : MonoBehaviour
     public bool blueInside;
     public bool greenInside;
 
+    public Slider scoreSlider;
+
+    public float maxScore = 300; //<<<<<<<<<<<<<<<ADJUST
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +37,8 @@ public class rhythmGame : MonoBehaviour
         blueInside = false;
         greenInside = false;
 
+        P1score = maxScore / 4;
+
     }
 
     // Update is called once per frame
@@ -39,7 +46,7 @@ public class rhythmGame : MonoBehaviour
     {
 
 
-
+        scoreSlider.value = P1score / maxScore;
 
 
 
