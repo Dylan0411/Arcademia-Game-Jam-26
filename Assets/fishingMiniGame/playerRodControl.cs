@@ -59,6 +59,9 @@ public class playerRodControl : MonoBehaviour
 
     public bool SplashOnce;
 
+    public Slider catchFishSlider;
+
+    public float elapsedTime3;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -102,6 +105,8 @@ public class playerRodControl : MonoBehaviour
         elapsedTime2 = 0f;
 
         SplashOnce = true;
+
+        elapsedTime3 = 0f;
     }
 
     // Update is called once per frame
@@ -124,8 +129,17 @@ public class playerRodControl : MonoBehaviour
 
             }
 
-            //hide both circles when s key is held.
-            //show 
+            //begin 4 second timer
+            //make slider represent this value
+            elapsedTime3 += Time.deltaTime;
+            catchFishSlider.value = elapsedTime3;
+
+
+            if (elapsedTime3 > 4)
+            {
+                defaultRod();
+            }
+
 
         }
         if (fishCaught == false)
@@ -183,8 +197,9 @@ public class playerRodControl : MonoBehaviour
                 {
                     if(SplashOnce == true)
                     {
-                        Instantiate(waterSplash, fish.transform.position, fish.transform.rotation);
+                        Instantiate(waterSplash, fish.transform.position, transform.rotation);
                         SplashOnce = false;
+                        fishCaughtTotal++;
                     }
                     fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed/2 * Time.deltaTime);
                 }
@@ -208,9 +223,9 @@ public class playerRodControl : MonoBehaviour
 
             if (doOnce == true)
             {
-                fishCaughtTotal++;
-                doOnce = false;
+               
                 fish.SetActive(false);
+                doOnce = false;
 
             }
             Invoke("moveRodBack", 4);
@@ -283,6 +298,7 @@ public class playerRodControl : MonoBehaviour
         fish.transform.position = fishDownPos.transform.position;
 
         SplashOnce = true;
+        elapsedTime3 = 0f;
 
     }
 
