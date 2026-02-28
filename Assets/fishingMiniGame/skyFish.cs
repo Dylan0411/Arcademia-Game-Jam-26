@@ -17,57 +17,45 @@ public class skyFish : MonoBehaviour
     public float bounceForce = 8f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    void Awake()
+    {
+        Random.InitState(System.Environment.TickCount);
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
 
-        fishBodySelector = Random.Range(1f, 21f);
+        // For ints: min inclusive, max exclusive
+        fishBodySelector = Random.Range(1, 21); // 1–20
 
+        // Turn everything off first (cleaner)
+        skyFish1.SetActive(false);
+        skyFish2.SetActive(false);
+        skyFish3.SetActive(false);
+        skyFish4.SetActive(false);
+        skyFish5.SetActive(false);
 
         if (fishBodySelector == 1)
         {
-           skyFish1.SetActive(false);
-           skyFish2.SetActive(false);
-           skyFish3.SetActive(false); 
-           skyFish4.SetActive(false); 
-           skyFish5.SetActive(true);
+            skyFish5.SetActive(true);
         }
-
-        if (fishBodySelector == 2 || fishBodySelector == 3)
+        else if (fishBodySelector == 2 || fishBodySelector == 3)
         {
-            skyFish1.SetActive(false);
             skyFish2.SetActive(true);
-            skyFish3.SetActive(false);
-            skyFish4.SetActive(false);
-            skyFish5.SetActive(false);
         }
-        if (fishBodySelector == 4 || fishBodySelector == 5)
+        else if (fishBodySelector == 4 || fishBodySelector == 5)
         {
-            skyFish1.SetActive(false);
-            skyFish2.SetActive(false);
-            skyFish3.SetActive(false);
             skyFish4.SetActive(true);
-            skyFish5.SetActive(false);
         }
-        if (fishBodySelector == 6 || fishBodySelector == 7 || fishBodySelector == 8)
+        else if (fishBodySelector == 6 || fishBodySelector == 7 || fishBodySelector == 8)
         {
-           skyFish1.SetActive(false);
-           skyFish2.SetActive(false);
-           skyFish3.SetActive(true);
-           skyFish4.SetActive(false);
-           skyFish5.SetActive(false);
+            skyFish3.SetActive(true);
         }
-        if (fishBodySelector >= 9)
+        else if (fishBodySelector >= 9)
         {
-           skyFish1.SetActive(true);
-           skyFish2.SetActive(false);
-           skyFish3.SetActive(false); 
-           skyFish4.SetActive(false); 
-           skyFish5.SetActive(false);
+            skyFish1.SetActive(true);
         }
-        
-        
-
 
         fishBehaviourSelector = Random.Range(1, 3); // gives 1 or 2
     }

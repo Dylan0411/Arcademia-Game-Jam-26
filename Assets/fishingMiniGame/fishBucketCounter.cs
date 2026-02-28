@@ -91,7 +91,7 @@ public class fishBucketCounter : MonoBehaviour
             ///
 
             //load the rythm game scene when fully black for 2 seconds via an invoke.
-            SceneManager.LoadScene("CarpHero");
+            Invoke("sceneChange", 5f);
         }
 
         fishCaughtSlider.value = playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal;
@@ -155,7 +155,7 @@ public class fishBucketCounter : MonoBehaviour
                     Invoke("InstantiateFish", 9f);
 
                     //fade screen to black
-                    Invoke("fadeToBlack", 15f);
+                    Invoke("fadeToBlack", 20f);
                     doOnce2 = false;
                 }
             }
@@ -196,15 +196,12 @@ public class fishBucketCounter : MonoBehaviour
     }
 
 
+    public void sceneChange()
+    {
+        SceneManager.LoadScene("CarpHero");
+
+    }
 
 
 
-    //add red mist
-
-
-    //fade screen to black+load new scene
-
-    //frank to make ui/menus pretty/all sounds/forest in fishing game
-
-    //lock gamne to 1080p in script for main menu scene
 }
