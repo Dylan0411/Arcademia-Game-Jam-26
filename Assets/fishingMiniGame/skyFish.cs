@@ -21,24 +21,52 @@ public class skyFish : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        fishBodySelector = Random.Range(0f, 20f);
+        fishBodySelector = Random.Range(1f, 21f);
 
 
-        /*
+        if (fishBodySelector == 1)
+        {
+           skyFish1.SetActive(false);
+           skyFish2.SetActive(false);
+           skyFish3.SetActive(false); 
+           skyFish4.SetActive(false); 
+           skyFish5.SetActive(true);
+        }
 
-         if (fishBodySelector == between x and x).. spawn fish 1/5  (repeat for all fish with correct bodies)
-
-
-
-
-
-
-
-         */
-          
-         
-
-
+        if (fishBodySelector == 2 || fishBodySelector == 3)
+        {
+            skyFish1.SetActive(false);
+            skyFish2.SetActive(true);
+            skyFish3.SetActive(false);
+            skyFish4.SetActive(false);
+            skyFish5.SetActive(false);
+        }
+        if (fishBodySelector == 4 || fishBodySelector == 5)
+        {
+            skyFish1.SetActive(false);
+            skyFish2.SetActive(false);
+            skyFish3.SetActive(false);
+            skyFish4.SetActive(true);
+            skyFish5.SetActive(false);
+        }
+        if (fishBodySelector == 6 || fishBodySelector == 7 || fishBodySelector == 8)
+        {
+           skyFish1.SetActive(false);
+           skyFish2.SetActive(false);
+           skyFish3.SetActive(true);
+           skyFish4.SetActive(false);
+           skyFish5.SetActive(false);
+        }
+        if (fishBodySelector >= 9)
+        {
+           skyFish1.SetActive(true);
+           skyFish2.SetActive(false);
+           skyFish3.SetActive(false); 
+           skyFish4.SetActive(false); 
+           skyFish5.SetActive(false);
+        }
+        
+        
 
 
         fishBehaviourSelector = Random.Range(1, 3); // gives 1 or 2

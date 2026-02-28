@@ -199,12 +199,12 @@ public class fishBucketCounter : MonoBehaviour
 
 
 
+    //add red mist
 
 
-
-    //fade screen to black
-    //add behaviour to fish
+    //fade screen to black+load new scene
 
     //frank to make ui/menus pretty/all sounds/forest in fishing game
 
+    //lock gamne to 1080p in script for main menu scene
 }
