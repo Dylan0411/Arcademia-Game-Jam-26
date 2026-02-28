@@ -2783,6 +2783,39 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &394108113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 394108114}
+  m_Layer: 0
+  m_Name: rods
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &394108114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394108113}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1960639369}
+  - {fileID: 1040898641}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -6140,7 +6173,7 @@ MonoBehaviour:
   fishMovingUp: {fileID: 1677371448}
   fishMovingUpStartPos: {fileID: 643695458}
   fishMovingUpEndPos: {fileID: 108747321}
-  skyFish: {fileID: 0}
+  skyFish: {fileID: 281995180112101779, guid: f7fc7bdcfe892cb4cbd647a8a23a3c19, type: 3}
   skyFishSpawnLocation1: {fileID: 195543052}
   skyFishSpawnLocation2: {fileID: 1013157080}
   skyFishSpawnLocation3: {fileID: 2025044708}
@@ -6152,6 +6185,8 @@ MonoBehaviour:
   fadeScreen: 0
   elapsedTime: 0
   doOnce: 0
+  doOnce1: 0
+  pRods: {fileID: 394108113}
 --- !u!1 &876945733
 GameObject:
   m_ObjectHideFlags: 0
@@ -7545,7 +7580,7 @@ Transform:
   - {fileID: 726588282}
   - {fileID: 466097616}
   - {fileID: 1334921079}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 394108114}
   m_LocalEulerAnglesHint: {x: 33.535, y: 63.44, z: 12.017}
 --- !u!114 &1040898642
 MonoBehaviour:
@@ -14420,7 +14455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960639368}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.287113, y: 0.16501474, z: -0.1884074, w: -0.924575}
+  m_LocalRotation: {x: -0.28711304, y: 0.16501476, z: -0.18840742, w: -0.92457503}
   m_LocalPosition: {x: -0.536, y: 2.79, z: -2.644}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14438,7 +14473,7 @@ Transform:
   - {fileID: 430722272}
   - {fileID: 842521309}
   - {fileID: 885097248}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 394108114}
   m_LocalEulerAnglesHint: {x: 24.668, y: 28.692, z: 11.958}
 --- !u!114 &1960639370
 MonoBehaviour:
@@ -15503,8 +15538,7 @@ SceneRoots:
   - {fileID: 196074079}
   - {fileID: 1415068692}
   - {fileID: 768496726}
-  - {fileID: 1960639369}
-  - {fileID: 1040898641}
+  - {fileID: 394108114}
   - {fileID: 1058005227}
   - {fileID: 877460883}
   - {fileID: 306467337}

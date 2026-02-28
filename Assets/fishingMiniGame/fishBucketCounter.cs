@@ -45,6 +45,10 @@ public class fishBucketCounter : MonoBehaviour
     public float elapsedTime;
 
     public bool doOnce;
+    public bool doOnce1;
+
+    public GameObject pRods;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -62,8 +66,15 @@ public class fishBucketCounter : MonoBehaviour
         elapsedTime = 0;
 
         doOnce = true;
+        doOnce1 = true;
+
 
         relic.GetComponent<Rigidbody>().isKinematic = true;
+
+        relic.SetActive(false);
+
+        pRods.SetActive(true);
+
 
     }
 
@@ -83,10 +94,12 @@ public class fishBucketCounter : MonoBehaviour
         fishCaughtSlider.value = playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal;
         if (playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal > 10)
         {
+
             //disable both fishing scripts + ui disappears
             pRodScript.enabled = false;
             pRodScript1.enabled = false;
             fishingUI.SetActive(false);
+            relic.SetActive(true);
             //relic comes out of fish bucket w/ splash effect
             relic.transform.position = Vector3.MoveTowards(relic.transform.position, relicEndPos.transform.position, 5 * Time.deltaTime);
             relic.transform.Rotate(0, 5 * Time.deltaTime, 0);
@@ -98,6 +111,9 @@ public class fishBucketCounter : MonoBehaviour
                 doOnce = false;
             }
 
+            //hideRods
+            pRods.SetActive(false);
+
 
 
             ///////WAIT 3 SECONDS//////
@@ -105,9 +121,13 @@ public class fishBucketCounter : MonoBehaviour
             if (elapsedTime > 3)
             {
 
-            
+
                 // "cursed loot gained" message as new ui message
-                cursedLootUI.SetActive(true);
+                if (doOnce1 == true)
+                {
+                    cursedLootUI.SetActive(true);
+                    doOnce1 = false;
+                }
                 Invoke("hideCursedLootPopUp", 5);
 
                 // loads of fish come out of water into the air
