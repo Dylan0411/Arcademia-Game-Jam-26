@@ -21,6 +21,8 @@ public class rhythmGame : MonoBehaviour
 
     public float maxScore = 300; //<<<<<<<<<<<<<<<ADJUST
 
+    public GameObject greenScoreFlash;
+    public GameObject redScoreFlash;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,7 +31,8 @@ public class rhythmGame : MonoBehaviour
         greenNote.SetActive(false);
         blueNote.SetActive(false);
 
-
+        greenScoreFlash.SetActive(false);
+        redScoreFlash.SetActive(false);
 
         P1score = 0;
 
@@ -49,7 +52,6 @@ public class rhythmGame : MonoBehaviour
         scoreSlider.value = P1score / maxScore;
 
 
-
         if (Input.GetKeyDown(KeyCode.T))
         {
             redNote.SetActive(true);
@@ -57,17 +59,27 @@ public class rhythmGame : MonoBehaviour
             {
                 Debug.Log("SCORE!!!");
                 P1score++;
+                redScoreFlash.SetActive(false);
+                greenScoreFlash.SetActive(true);
+
             }
             else
             {
                 Debug.Log("miss!");
                 P1score--;
+                greenScoreFlash.SetActive(false);
+                redScoreFlash.SetActive(true);
+
+
             }
         }
 
         if (Input.GetKeyUp(KeyCode.T))
         {
             redNote.SetActive(false);
+            //
+            greenScoreFlash.SetActive(false);
+            redScoreFlash.SetActive(false);
         }
 
 
@@ -78,16 +90,23 @@ public class rhythmGame : MonoBehaviour
             {
                 Debug.Log("SCORE!!!");
                 P1score++;
+                redScoreFlash.SetActive(false);
+                greenScoreFlash.SetActive(true);
             }
             else
             {
                 Debug.Log("miss!");
                 P1score--;
+                greenScoreFlash.SetActive(false);
+                redScoreFlash.SetActive(true);
             }
         }
         if (Input.GetKeyUp(KeyCode.Y))
         {
             greenNote.SetActive(false);
+            //
+            greenScoreFlash.SetActive(false);
+            redScoreFlash.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
@@ -97,16 +116,23 @@ public class rhythmGame : MonoBehaviour
             {
                 Debug.Log("SCORE!!!");
                 P1score++;
+                redScoreFlash.SetActive(false);
+                greenScoreFlash.SetActive(true);
             }
             else
             {
                 Debug.Log("miss!");
                 P1score--;
+                greenScoreFlash.SetActive(false);
+                redScoreFlash.SetActive(true);
             }
         }
         if (Input.GetKeyUp(KeyCode.U))
         {
             blueNote.SetActive(false);
+            //
+            greenScoreFlash.SetActive(false);
+            redScoreFlash.SetActive(false);
         }
     }
 
