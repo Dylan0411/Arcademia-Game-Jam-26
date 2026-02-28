@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class playerRodControl : MonoBehaviour
+public class playerRodControl1 : MonoBehaviour
 {
 
     public GameObject defaultRodRotLoc;
@@ -154,7 +154,7 @@ public class playerRodControl : MonoBehaviour
         }
         if (fishCaught == false)
         {
-            if (Input.GetKey(KeyCode.S) && fishBite == true)
+            if (Input.GetKey(KeyCode.DownArrow) && fishBite == true)
             {
                 waitingForFishCircle.SetActive(false);
                 pullBackCircle.SetActive(false);
@@ -170,12 +170,12 @@ public class playerRodControl : MonoBehaviour
                 rodPulledBack = false;
             }
 
-            if (Input.GetKeyUp(KeyCode.S) && fishBite == true)
+            if (Input.GetKeyUp(KeyCode.M) && fishBite == true)
             {
                 elapsedTime1 = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.N) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
+            if (Input.GetKeyDown(KeyCode.M) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
             {
                 fishReelCounter++;
                 if (fishReelCounter == 20)//press 20 times to reel fish
@@ -321,3 +321,14 @@ public class playerRodControl : MonoBehaviour
 }
 
 
+
+
+
+
+
+// when 5 fish are caught, next fish is the relic.
+
+
+//add bouncy fish and slippery fish
+
+//apply arcade control scheme
