@@ -77,7 +77,7 @@ public class skyFish : MonoBehaviour
 
                 rb.AddForce(randomDirection.normalized * forceAmount, ForceMode.Impulse);
 
-                nextForceTime = Time.time + 1.5f;
+                nextForceTime = Time.time + 0.5f;
             }
         }
 

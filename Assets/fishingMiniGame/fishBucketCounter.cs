@@ -44,6 +44,8 @@ public class fishBucketCounter : MonoBehaviour
     public bool fadeScreen;
 
     public float elapsedTime;
+    public float elapsedTime1;
+
 
     public bool doOnce;
     public bool doOnce1;
@@ -66,6 +68,7 @@ public class fishBucketCounter : MonoBehaviour
         fadeScreen = false;
 
         elapsedTime = 0;
+        elapsedTime1 = 0;
 
         doOnce = true;
         doOnce1 = true;
@@ -102,7 +105,17 @@ public class fishBucketCounter : MonoBehaviour
             relic.SetActive(true);
             //relic comes out of fish bucket w/ splash effect
             relic.transform.position = Vector3.MoveTowards(relic.transform.position, relicEndPos.transform.position, 5 * Time.deltaTime);
-            relic.transform.Rotate(0, 5 * Time.deltaTime, 0);
+
+
+            if (elapsedTime1 > 3)
+            {
+                relic.transform.Rotate(0, 5 * Time.deltaTime, 0);
+            }
+            else
+            {
+                elapsedTime1 += Time.deltaTime;
+            }
+
             relic.GetComponent<Rigidbody>().isKinematic = false;
 
             if (doOnce == true)
@@ -148,7 +161,7 @@ public class fishBucketCounter : MonoBehaviour
                     Invoke("InstantiateFish", 9f);
 
                     //fade screen to black
-                    Invoke("fadeToBlack", 20f);
+                    Invoke("fadeToBlack", 15f);
                     doOnce2 = false;
                 }
             }
@@ -199,7 +212,7 @@ public class fishBucketCounter : MonoBehaviour
     {
         yield return StartCoroutine(FadeImage(0f, 1f));
 
-        // Wait an extra 2 seconds fully black if you want drama
+        // Wait an extra 2 seconds
         yield return new WaitForSeconds(2f);
 
         SceneManager.LoadScene("CarpHero");
