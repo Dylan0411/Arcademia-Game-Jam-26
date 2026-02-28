@@ -20,6 +20,7 @@ public class playerRodControl : MonoBehaviour
 
     bool runTimer;
 
+    public GameObject waterSplash;
 
     public float timerLength;
     public float elapsedTime0;
@@ -55,6 +56,8 @@ public class playerRodControl : MonoBehaviour
     bool moveRodFromBucket;
 
     public float elapsedTime2;
+
+    public bool SplashOnce;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -97,12 +100,13 @@ public class playerRodControl : MonoBehaviour
         moveRodFromBucket = false;
 
         elapsedTime2 = 0f;
+
+        SplashOnce = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
         fishingSlider.value = fishReelCounter;
         fishCaughtSlider.value = fishCaughtTotal;
 
@@ -163,7 +167,7 @@ public class playerRodControl : MonoBehaviour
         }
         if (fishCaught == true)
         {
-            
+
             if (moveRodToBucket == true)
             {
                 fish.SetActive(true);
@@ -173,33 +177,34 @@ public class playerRodControl : MonoBehaviour
                 fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, fishCaughtLocRot.transform.position, speed * Time.deltaTime);
                 fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, fishCaughtLocRot.transform.rotation, speed * 2 * Time.deltaTime);
 
-                fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishUpPos.transform.position, speed * Time.deltaTime);
 
+                elapsedTime2 += Time.deltaTime;
+                if (elapsedTime2 > 1)
+                {
+                    if(SplashOnce == true)
+                    {
+                        Instantiate(waterSplash, fish.transform.position, fish.transform.rotation);
+                        SplashOnce = false;
+                    }
+                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed/2 * Time.deltaTime);
+                }
+                else
+                {
+                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishUpPos.transform.position, speed * Time.deltaTime);
+                }
             }
-
             if (moveRodFromBucket)
             {
                 fish.SetActive (false);
-                
-
-                //2 second timer
-                elapsedTime2 += Time.deltaTime;
-                if (elapsedTime0 > 2)
-                {
-                    //move fish to default loc and rot
-                    //fish.SetActive(false);
-                    fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, defaultRodRotLoc.transform.position, speed * Time.deltaTime);
-                    fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 2 * Time.deltaTime);
-                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed * Time.deltaTime);
-
-                }
-
-
-            }
-            else
-            {
                 elapsedTime2 = 0f;
+
+                fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, defaultRodRotLoc.transform.position, speed * Time.deltaTime);
+                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 2 * Time.deltaTime);
+
+
+
             }
+
 
             if (doOnce == true)
             {
@@ -276,6 +281,8 @@ public class playerRodControl : MonoBehaviour
         moveRodFromBucket = false;
 
         fish.transform.position = fishDownPos.transform.position;
+
+        SplashOnce = true;
 
     }
 
