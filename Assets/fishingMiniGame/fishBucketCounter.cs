@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -40,6 +42,10 @@ public class fishBucketCounter : MonoBehaviour
 
     public bool fadeScreen;
 
+    public float elapsedTime;
+
+    public bool doOnce;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -52,6 +58,10 @@ public class fishBucketCounter : MonoBehaviour
 
         fishMovingUp.transform.position = fishMovingUpStartPos.transform.position;
         fadeScreen = false;
+
+        elapsedTime = 0;
+
+        doOnce = true;
     }
 
     // Update is called once per frame
@@ -63,7 +73,8 @@ public class fishBucketCounter : MonoBehaviour
             ///<<<<<<<<<<<<<<<<<<<<<fade screen to black>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             ///
 
-            //load the rythm game scene.
+            //load the rythm game scene when fully black for 2 seconds via an invoke.
+            SceneManager.LoadScene("CarpHero");
         }
 
         fishCaughtSlider.value = playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal;
@@ -75,40 +86,54 @@ public class fishBucketCounter : MonoBehaviour
             fishingUI.SetActive(false);
             //relic comes out of fish bucket w/ splash effect
             relic.transform.position = Vector3.MoveTowards(relic.transform.position, relicEndPos.transform.position, 5 * Time.deltaTime);
-            relic.transform.Rotate(0, 5*Time.deltaTime, 0);
-            Instantiate(splashEffect);
+            relic.transform.Rotate(0, 5 * Time.deltaTime, 0);
+
+            if (doOnce == true)
+            {
+                Instantiate(splashEffect);
+                doOnce = false;
+            }
+
 
 
             ///////WAIT 3 SECONDS//////
 
+            if (elapsedTime > 3)
+            {
 
-            // "cursed loot gained" message as new ui message
-            cursedLootUI.SetActive(true);
-            Invoke("hideCursedLootPopUp", 5);
+            
+                // "cursed loot gained" message as new ui message
+                cursedLootUI.SetActive(true);
+                Invoke("hideCursedLootPopUp", 5);
 
-            // loads of fish come out of water into the air
-            fishMovingUp.transform.position = Vector3.MoveTowards(fishMovingUp.transform.position, fishMovingUpEndPos.transform.position, 5 * Time.deltaTime);
-
-
-            // water freezes over into ice
-            Ice.SetActive(true); //<<<<<<<<DONT FORGET TO MAKE SLIPPY/BOUNCY
+                // loads of fish come out of water into the air
+                fishMovingUp.transform.position = Vector3.MoveTowards(fishMovingUp.transform.position, fishMovingUpEndPos.transform.position, 5 * Time.deltaTime);
 
 
-            //fish fall from sky onto ice (instantiate loads)
-            InstantiateFish();
-            Invoke("InstantiateFish", 1f);
-            Invoke("InstantiateFish", 2f);
-            Invoke("InstantiateFish", 3f);
-            Invoke("InstantiateFish", 4f);
-            Invoke("InstantiateFish", 5f);
-            Invoke("InstantiateFish", 6f);
-            Invoke("InstantiateFish", 7f);
-            Invoke("InstantiateFish", 8f);
-            Invoke("InstantiateFish", 9f);
-            Invoke("InstantiateFish", 10f);
+                // water freezes over into ice
+                Ice.SetActive(true); //<<<<<<<<DONT FORGET TO MAKE SLIPPY/BOUNCY
 
-            //fade screen to black
-            Invoke("fadeToBlack", 15f);
+
+                //fish fall from sky onto ice (instantiate loads)
+                InstantiateFish();
+                Invoke("InstantiateFish", 1f);
+                Invoke("InstantiateFish", 2f);
+                Invoke("InstantiateFish", 3f);
+                Invoke("InstantiateFish", 4f);
+                Invoke("InstantiateFish", 5f);
+                Invoke("InstantiateFish", 6f);
+                Invoke("InstantiateFish", 7f);
+                Invoke("InstantiateFish", 8f);
+                Invoke("InstantiateFish", 9f);
+                Invoke("InstantiateFish", 10f);
+
+                //fade screen to black
+                Invoke("fadeToBlack", 15f);
+            }
+            else
+            {
+                elapsedTime += Time.deltaTime;
+            }
 
          
 
