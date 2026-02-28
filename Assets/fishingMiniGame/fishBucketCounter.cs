@@ -30,10 +30,6 @@ public class fishBucketCounter : MonoBehaviour
 
     public GameObject cursedLootUI;
 
-    public GameObject fishMovingUp;
-    public GameObject fishMovingUpStartPos;
-    public GameObject fishMovingUpEndPos;
-
     public GameObject skyFish;
 
     public GameObject skyFishSpawnLocation1;
@@ -67,7 +63,6 @@ public class fishBucketCounter : MonoBehaviour
         relic.transform.position = relicStartPos.transform.position;
         cursedLootUI.SetActive(false);
 
-        fishMovingUp.transform.position = fishMovingUpStartPos.transform.position;
         fadeScreen = false;
 
         elapsedTime = 0;
@@ -134,10 +129,6 @@ public class fishBucketCounter : MonoBehaviour
                     doOnce1 = false;
                 }
                 Invoke("hideCursedLootPopUp", 5);
-
-                // loads of fish come out of water into the air
-                fishMovingUp.transform.position = Vector3.MoveTowards(fishMovingUp.transform.position, fishMovingUpEndPos.transform.position, 5 * Time.deltaTime);
-
 
                 // water freezes over into ice
                 Ice.SetActive(true); //<<<<<<<<DONT FORGET TO MAKE SLIPPY/BOUNCY
