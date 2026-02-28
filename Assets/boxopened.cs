@@ -5,6 +5,7 @@ public class BoxOpener : MonoBehaviour
 {
     [Header("Interaction Settings")]
     public GameObject interactionText;
+    public float interactionDistance = 3.5f; // How close the player needs to be
     public KeyCode interactionKey = KeyCode.X;
 
     [Header("Movement Settings")]
@@ -15,7 +16,7 @@ public class BoxOpener : MonoBehaviour
     public Vector3 lidTargetPos;
 
     [Header("Camera Shake")]
-    public Transform playerCamera;   // Drag your Main Camera here
+    public Transform playerCamera;
     public float shakeIntensity = 0.05f;
 
     [Header("Pupil Toggle")]
@@ -25,29 +26,56 @@ public class BoxOpener : MonoBehaviour
     [Header("Wall Cover")]
     public GameObject wallCover;
 
-    [Header("External Audio")]
-    public AudioSource otherMusicSource;
-
-
     [Header("Audio")]
-    public AudioSource musicSource;
+    public AudioSource musicSource;   // The box/scary music
+    public AudioSource otherMusicSource; // The loop to stop
     public AudioClip ohNoMusic;
     public AudioClip openSound;
 
     private bool isOpened = false;
+    private Transform playerTransform;
 
     void Start()
     {
-        // THE MOMENT THE GAME STARTS, RUN THE EVENT
-        Debug.Log("Game Started: Triggering Box Event...");
-        BoxOpened();
+        // Find the player automatically at the start
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("BoxOpener: No object with the tag 'Player' found in the scene!");
+        }
+    }
+
+    void Update()
+    {
+        if (isOpened || playerTransform == null) return;
+
+        // Calculate distance between the Box and the Player
+        float dist = Vector3.Distance(transform.position, playerTransform.position);
+
+        if (dist <= interactionDistance)
+        {
+            // Player is close enough
+            if (interactionText != null) interactionText.SetActive(true);
+
+            if (Input.GetKeyDown(interactionKey))
+            {
+                BoxOpened();
+            }
+        }
+        else
+        {
+            // Player is too far away
+            if (interactionText != null) interactionText.SetActive(false);
+        }
     }
 
     public void BoxOpened()
     {
-        if (isOpened) return;
         isOpened = true;
-
         if (interactionText != null) interactionText.SetActive(false);
 
         // 1. Swap Pupils
@@ -55,8 +83,11 @@ public class BoxOpener : MonoBehaviour
         foreach (GameObject part in deadPupils) part.SetActive(true);
 
         // 2. Physics: Wall cover falls
-        Rigidbody rb = wallCover.GetComponent<Rigidbody>();
-        if (rb != null) rb.isKinematic = false;
+        if (wallCover != null)
+        {
+            Rigidbody rb = wallCover.GetComponent<Rigidbody>();
+            if (rb != null) rb.isKinematic = false;
+        }
 
         // 3. Audio Swap
         if (musicSource != null)
@@ -69,12 +100,13 @@ public class BoxOpener : MonoBehaviour
 
         if (otherMusicSource != null)
         {
-            otherMusicSource.Stop();
             otherMusicSource.loop = false;
+            otherMusicSource.Stop();
         }
+
         AudioSource.PlayClipAtPoint(openSound, transform.position);
 
-        // 4. Start Movements AND Camera Shake
+        // 4. Start Movements and Shake
         StartCoroutine(MoveOverTime(lava.transform, lavaTargetPos));
         StartCoroutine(MoveOverTime(boxLid.transform, lidTargetPos));
         StartCoroutine(ShakeCamera());
@@ -84,36 +116,25 @@ public class BoxOpener : MonoBehaviour
     {
         Vector3 originalPos = playerCamera.localPosition;
         float elapsed = 0;
-
         while (elapsed < transitionTime)
         {
-            // Calculate a random tiny offset
-            float x = Random.Range(-1f, 1f) * shakeIntensity;
-            float y = Random.Range(-1f, 1f) * shakeIntensity;
-
-            playerCamera.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
-
+            playerCamera.localPosition = originalPos + (Random.insideUnitSphere * shakeIntensity);
             elapsed += Time.deltaTime;
             yield return null;
         }
-
-        // Return camera to normal
         playerCamera.localPosition = originalPos;
     }
 
-
-
-    IEnumerator MoveOverTime(Transform objTransform, Vector3 target)
+    IEnumerator MoveOverTime(Transform obj, Vector3 target)
     {
-        Vector3 startPos = objTransform.position;
+        Vector3 start = obj.position;
         float elapsed = 0;
-
         while (elapsed < transitionTime)
         {
-            objTransform.position = Vector3.Lerp(startPos, target, elapsed / transitionTime);
+            obj.position = Vector3.Lerp(start, target, elapsed / transitionTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        objTransform.position = target;
+        obj.position = target;
     }
 }
