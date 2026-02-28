@@ -18,6 +18,12 @@ TagManager:
   - redNote
   - blueNote
   - greenNote
+  - redNoteStartPos1
+  - blueNoteStartPos1
+  - greenNoteStartPos1
+  - redNoteEndPos1
+  - blueNoteEndPos1
+  - greenNoteEndPos1
   layers:
   - Default
   - TransparentFX
