@@ -27,7 +27,8 @@ public class endGame : MonoBehaviour
         // CHANGED: force screen fully black at start
         alpha = 1f;
         blackScreen.color = new Color(0f, 0f, 0f, alpha);
-        fadeToBlack = false;
+        Invoke("unfadeInitial", 3f);
+
 
         Invoke("gameEnd", gameLength);
         Invoke("quitGame", gameLength + 10f);
@@ -73,7 +74,7 @@ public class endGame : MonoBehaviour
         fadeToBlack = true;
     }
 
-    void blackScreenStart()
+    void unfadeInitial()
     {
         fadeToBlack = false;
     }
