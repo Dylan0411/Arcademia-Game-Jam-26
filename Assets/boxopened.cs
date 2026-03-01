@@ -79,7 +79,7 @@ public class BoxOpener : MonoBehaviour
             {
                 BoxOpened();
             }
-            if (Input.GetKeyDown(interactionKey1))
+            else if (Input.GetKeyDown(interactionKey1))
             {
                 BoxOpened();
             }
