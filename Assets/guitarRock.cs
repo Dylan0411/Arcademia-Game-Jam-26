@@ -1,5 +1,6 @@
 using UnityEngine;
 
+public class GuitarFishRotate : MonoBehaviour
 {
     [Header("Rotation Settings")]
     public float minZAngle = 0f;
