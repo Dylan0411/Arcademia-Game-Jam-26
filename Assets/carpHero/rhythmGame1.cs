@@ -81,9 +81,7 @@ public class rhythmGame1 : MonoBehaviour
                 redHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
 
@@ -115,9 +113,7 @@ public class rhythmGame1 : MonoBehaviour
                 greenHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
 
@@ -148,9 +144,7 @@ public class rhythmGame1 : MonoBehaviour
                 blueHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
 
@@ -189,9 +183,7 @@ public class rhythmGame1 : MonoBehaviour
                 P2score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
         if (other.CompareTag("greenNote"))
@@ -203,9 +195,7 @@ public class rhythmGame1 : MonoBehaviour
                 P2score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
         if (other.CompareTag("blueNote"))
@@ -217,16 +207,9 @@ public class rhythmGame1 : MonoBehaviour
                 P2score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
-    }
-
-    void unMuteBabyShark()
-    {
-        babyShark.mute = false;
     }
 
     void HideRedFlash()

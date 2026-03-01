@@ -31,7 +31,6 @@ public class rhythmGame : MonoBehaviour
     private bool greenHit;
     private bool blueHit;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         redNote.SetActive(false);
@@ -49,13 +48,11 @@ public class rhythmGame : MonoBehaviour
 
         P1score = maxScore / 4;
 
-        // Initialize hit flags
         redHit = false;
         greenHit = false;
         blueHit = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -66,13 +63,13 @@ public class rhythmGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             redNote.SetActive(true);
-            redHit = false; // reset hit flag when note appears
+            redHit = false;
 
             if (redInside)
             {
                 Debug.Log("SCORE!!!");
                 P1score++;
-                redHit = true; // mark as hit
+                redHit = true;
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
 
@@ -81,19 +78,16 @@ public class rhythmGame : MonoBehaviour
             {
                 Debug.Log("miss!");
                 P1score--;
-                redHit = true; // mark as attempted
+                redHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.T))
         {
             redNote.SetActive(false);
-            //
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
@@ -102,7 +96,7 @@ public class rhythmGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             greenNote.SetActive(true);
-            greenHit = false; // reset hit flag
+            greenHit = false;
 
             if (greenInside)
             {
@@ -119,15 +113,13 @@ public class rhythmGame : MonoBehaviour
                 greenHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
+
         if (Input.GetKeyUp(KeyCode.Y))
         {
             greenNote.SetActive(false);
-            //
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
@@ -135,7 +127,7 @@ public class rhythmGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             blueNote.SetActive(true);
-            blueHit = false; // reset hit flag
+            blueHit = false;
 
             if (blueInside)
             {
@@ -152,21 +144,18 @@ public class rhythmGame : MonoBehaviour
                 blueHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-                babyShark.mute = true;
                 badNote.Play();
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
+
         if (Input.GetKeyUp(KeyCode.U))
         {
             blueNote.SetActive(false);
-            //
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
     }
 
-    //if object with tag: "redNote", is inside box collider then make redInside bool true, else make it false
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("redNote"))
@@ -194,8 +183,6 @@ public class rhythmGame : MonoBehaviour
                 P1score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                babyShark.mute = true;
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
         if (other.CompareTag("greenNote"))
@@ -207,8 +194,6 @@ public class rhythmGame : MonoBehaviour
                 P1score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                babyShark.mute = true;
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
         if (other.CompareTag("blueNote"))
@@ -220,20 +205,12 @@ public class rhythmGame : MonoBehaviour
                 P1score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                babyShark.mute = true;
-                Invoke("unMuteBabyShark", 0.75f);
             }
         }
-    }
-
-    void unMuteBabyShark()
-    {
-        babyShark.mute = false;
     }
 
     void HideRedFlash()
     {
         redScoreFlash.SetActive(false);
     }
-
 }
