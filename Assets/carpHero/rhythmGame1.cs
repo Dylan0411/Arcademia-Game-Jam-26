@@ -183,7 +183,6 @@ public class rhythmGame1 : MonoBehaviour
                 P2score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                badNote.Play();
             }
         }
         if (other.CompareTag("greenNote"))
@@ -195,7 +194,6 @@ public class rhythmGame1 : MonoBehaviour
                 P2score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                badNote.Play();
             }
         }
         if (other.CompareTag("blueNote"))
@@ -207,7 +205,6 @@ public class rhythmGame1 : MonoBehaviour
                 P2score--;
                 redScoreFlash.SetActive(true);
                 Invoke("HideRedFlash", 0.5f);
-                badNote.Play();
             }
         }
     }
