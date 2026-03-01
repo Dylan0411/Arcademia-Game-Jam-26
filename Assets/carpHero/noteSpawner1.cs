@@ -1,37 +1,71 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class noteSpawner1 : MonoBehaviour
+public class NoteSpawner1 : MonoBehaviour
 {
-
     public GameObject redNoteOBJ;
     public GameObject greenNoteOBJ;
     public GameObject blueNoteOBJ;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float noteBuffer = 2.82f; // travel time
+    private float songTimer;
+
+    class NoteData
+    {
+        public float hitTime;
+        public string lane;
+        public bool spawned;
+
+        public NoteData(float time, string laneName)
+        {
+            hitTime = time;
+            lane = laneName;
+            spawned = false;
+        }
+    }
+
+    List<NoteData> chart = new List<NoteData>();
+
     void Start()
     {
-        Instantiate(redNoteOBJ);
-        Invoke("test", 2f);
-        Invoke("test1", 5f);
+        // These are HIT TIMES (when player should press)
+        chart.Add(new NoteData(5f, "red"));
+        chart.Add(new NoteData(6f, "green"));
+        chart.Add(new NoteData(7f, "blue"));
+        chart.Add(new NoteData(8f, "red"));
+        chart.Add(new NoteData(9f, "green"));
+        chart.Add(new NoteData(10f, "blue"));
     }
 
-    // Update is called once per frame
     void Update()
     {
+        songTimer += Time.deltaTime;
 
+        foreach (var note in chart)
+        {
+            float spawnTime = note.hitTime - noteBuffer;
 
+            if (!note.spawned && songTimer >= spawnTime)
+            {
+                SpawnNote(note.lane);
+                note.spawned = true;
+            }
+        }
     }
 
-
-
-    public void test()
+    void SpawnNote(string lane)
     {
-        Instantiate(greenNoteOBJ);
+        switch (lane)
+        {
+            case "red":
+                Instantiate(redNoteOBJ);
+                break;
+            case "green":
+                Instantiate(greenNoteOBJ);
+                break;
+            case "blue":
+                Instantiate(blueNoteOBJ);
+                break;
+        }
     }
-
-    public void test1()
-    {
-        Instantiate(blueNoteOBJ);
-    }
-
 }
