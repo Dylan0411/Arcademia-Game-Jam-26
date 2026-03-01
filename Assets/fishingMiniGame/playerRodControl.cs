@@ -153,7 +153,7 @@ public class playerRodControl : MonoBehaviour
         }
         if (fishCaught == false)
         {
-            if (Input.GetKey(KeyCode.S) && fishBite == true)
+            if (Input.GetKey(KeyCode.DownArrow) && fishBite == true)
             {
                 waitingForFishCircle.SetActive(false);
                 pullBackCircle.SetActive(false);
@@ -169,12 +169,12 @@ public class playerRodControl : MonoBehaviour
                 rodPulledBack = false;
             }
 
-            if (Input.GetKeyUp(KeyCode.S) && fishBite == true)
+            if (Input.GetKeyUp(KeyCode.Z) && fishBite == true)
             {
                 elapsedTime1 = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.N) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
+            if (Input.GetKeyDown(KeyCode.Z) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
             {
                 fishReelCounter++;
                 if (fishReelCounter == 20)//press 20 times to reel fish
