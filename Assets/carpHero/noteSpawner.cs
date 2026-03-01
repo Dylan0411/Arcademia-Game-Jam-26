@@ -11,6 +11,8 @@ public class NoteSpawner : MonoBehaviour
 
 
     public AudioSource babyShark;
+    public AudioSource babySharkBackingTrack;
+
     class NoteData
     {
         public float hitTime;
@@ -308,5 +310,6 @@ public class NoteSpawner : MonoBehaviour
     void playTunes()
     {
         babyShark.Play();
+        babySharkBackingTrack.Play();
     }
 }

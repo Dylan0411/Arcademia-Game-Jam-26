@@ -4,12 +4,9 @@ using UnityEngine.UI;
 public class rhythmGame1 : MonoBehaviour
 {
 
-
     public GameObject redNote;
     public GameObject greenNote;
     public GameObject blueNote;
-
-
 
     public static float P2score;
 
@@ -19,14 +16,21 @@ public class rhythmGame1 : MonoBehaviour
 
     public Slider scoreSlider;
 
-    public float maxScore = 300; //<<<<<<<<<<<<<<<ADJUST
+    public float maxScore = 291; //<<<<<<<<<<<<<<<ADJUST
 
     public GameObject greenScoreFlash;
     public GameObject redScoreFlash;
 
     public Text p2ScoreText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public AudioSource babyShark;
+    public AudioSource badNote;
+
+    // NEW: track if note was hit
+    private bool redHit;
+    private bool greenHit;
+    private bool blueHit;
+
     void Start()
     {
         redNote.SetActive(false);
@@ -44,9 +48,11 @@ public class rhythmGame1 : MonoBehaviour
 
         P2score = maxScore / 4;
 
+        redHit = false;
+        greenHit = false;
+        blueHit = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -57,10 +63,13 @@ public class rhythmGame1 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             redNote.SetActive(true);
-            if(redInside)
+            redHit = false;
+
+            if (redInside)
             {
                 Debug.Log("SCORE!!!");
                 P2score++;
+                redHit = true;
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
 
@@ -69,17 +78,18 @@ public class rhythmGame1 : MonoBehaviour
             {
                 Debug.Log("miss!");
                 P2score--;
+                redHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
-
-
+                babyShark.mute = true;
+                badNote.Play();
+                Invoke("unMuteBabyShark", 0.75f);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.I))
         {
             redNote.SetActive(false);
-            //
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
@@ -88,10 +98,13 @@ public class rhythmGame1 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             greenNote.SetActive(true);
+            greenHit = false;
+
             if (greenInside)
             {
                 Debug.Log("SCORE!!!");
                 P2score++;
+                greenHit = true;
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
             }
@@ -99,14 +112,18 @@ public class rhythmGame1 : MonoBehaviour
             {
                 Debug.Log("miss!");
                 P2score--;
+                greenHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
+                babyShark.mute = true;
+                badNote.Play();
+                Invoke("unMuteBabyShark", 0.75f);
             }
         }
+
         if (Input.GetKeyUp(KeyCode.O))
         {
             greenNote.SetActive(false);
-            //
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
@@ -114,10 +131,13 @@ public class rhythmGame1 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             blueNote.SetActive(true);
+            blueHit = false;
+
             if (blueInside)
             {
                 Debug.Log("SCORE!!!");
                 P2score++;
+                blueHit = true;
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
             }
@@ -125,22 +145,23 @@ public class rhythmGame1 : MonoBehaviour
             {
                 Debug.Log("miss!");
                 P2score--;
+                blueHit = true;
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
+                babyShark.mute = true;
+                badNote.Play();
+                Invoke("unMuteBabyShark", 0.75f);
             }
         }
+
         if (Input.GetKeyUp(KeyCode.P))
         {
             blueNote.SetActive(false);
-            //
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
     }
 
-
-
-    //if object with tag: "redNote", is inside box collider then makew redInside bool true, else make it false
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("redNote"))
@@ -162,16 +183,54 @@ public class rhythmGame1 : MonoBehaviour
         if (other.CompareTag("redNote"))
         {
             redInside = false;
+            if (!redHit)
+            {
+                Debug.Log("Missed without attempt!");
+                P2score--;
+                redScoreFlash.SetActive(true);
+                Invoke("HideRedFlash", 0.5f);
+                babyShark.mute = true;
+                badNote.Play();
+                Invoke("unMuteBabyShark", 0.75f);
+            }
         }
         if (other.CompareTag("greenNote"))
         {
             greenInside = false;
+            if (!greenHit)
+            {
+                Debug.Log("Missed without attempt!");
+                P2score--;
+                redScoreFlash.SetActive(true);
+                Invoke("HideRedFlash", 0.5f);
+                babyShark.mute = true;
+                badNote.Play();
+                Invoke("unMuteBabyShark", 0.75f);
+            }
         }
         if (other.CompareTag("blueNote"))
         {
             blueInside = false;
+            if (!blueHit)
+            {
+                Debug.Log("Missed without attempt!");
+                P2score--;
+                redScoreFlash.SetActive(true);
+                Invoke("HideRedFlash", 0.5f);
+                babyShark.mute = true;
+                badNote.Play();
+                Invoke("unMuteBabyShark", 0.75f);
+            }
         }
     }
 
+    void unMuteBabyShark()
+    {
+        babyShark.mute = false;
+    }
 
+    void HideRedFlash()
+    {
+        redScoreFlash.SetActive(false);
+    }
 }
