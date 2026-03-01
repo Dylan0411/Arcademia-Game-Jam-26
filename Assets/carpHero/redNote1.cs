@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class redNote1 : MonoBehaviour
 {

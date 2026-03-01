@@ -35,6 +35,19 @@ public class BoxOpener : MonoBehaviour
     private bool isOpened = false;
     private Transform playerTransform;
 
+
+
+
+
+    public GameObject fishingButton;
+    public GameObject menu;
+    public GameObject startButton;
+
+
+
+
+
+
     void Start()
     {
         // Find the player automatically at the start
@@ -110,6 +123,17 @@ public class BoxOpener : MonoBehaviour
         StartCoroutine(MoveOverTime(lava.transform, lavaTargetPos));
         StartCoroutine(MoveOverTime(boxLid.transform, lidTargetPos));
         StartCoroutine(ShakeCamera());
+
+
+
+        //////////////Dylan was here
+
+        Invoke("openMenu", 5f);
+
+
+
+
+
     }
 
     IEnumerator ShakeCamera()
@@ -137,4 +161,22 @@ public class BoxOpener : MonoBehaviour
         }
         obj.position = target;
     }
+
+
+
+    void openMenu()
+    {
+        //pause time
+        Time.timeScale = 0f;
+
+        //show menu
+        menu.SetActive(true);
+
+        //hide main button
+        startButton.SetActive(false);
+
+        //show fish minigame button
+        fishingButton.SetActive(true);
+    }
+
 }

@@ -5,30 +5,40 @@ public class mainMenu : MonoBehaviour
 {
 
     public GameObject Menu;
+    public GameObject startButton;
+    public GameObject fishingButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //start paused
-        //fish minu game button gone
+        Time.timeScale = 0f;
+
+        //menu visible
+        Menu.SetActive(true);
+
+        //fish menu game button gone
+        fishingButton.SetActive(false);
+
         //play button visible
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        startButton.SetActive(true);
     }
 
 
-    void startGame()
+
+
+    public void startGame()
     {
         //play time
+        Time.timeScale = 1f;
         //hide menu
+        Menu.SetActive(false);
     }
 
-    void startFishing()
+    public void startFishing()
     {
+        //start time up again
+        Time.timeScale = 1f;
         SceneManager.LoadScene("fishing mini-game");
     }
 

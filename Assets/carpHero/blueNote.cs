@@ -1,7 +1,6 @@
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
 
 public class blueNote : MonoBehaviour
 {
