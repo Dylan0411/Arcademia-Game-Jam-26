@@ -11,7 +11,7 @@ public class rhythmGame1 : MonoBehaviour
 
 
 
-    public float P2score;
+    public static float P2score;
 
     public bool redInside;
     public bool blueInside;
@@ -23,6 +23,8 @@ public class rhythmGame1 : MonoBehaviour
 
     public GameObject greenScoreFlash;
     public GameObject redScoreFlash;
+
+    public Text p2ScoreText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,7 +50,7 @@ public class rhythmGame1 : MonoBehaviour
     void Update()
     {
 
-
+        p2ScoreText.text = P2score.ToString();
         scoreSlider.value = P2score / maxScore;
 
 
