@@ -128,7 +128,7 @@ public class BoxOpener : MonoBehaviour
 
         //////////////Dylan was here
 
-        Invoke("openMenu", 5f);
+        Invoke("openMenu", 10f);
 
 
 
