@@ -6827,7 +6827,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use the Stick to move.
+  m_text: Use the W/S to move.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6d473669c23381649aebb5247eb5245c, type: 2}
   m_sharedMaterial: {fileID: 6749618907545623280, guid: 6d473669c23381649aebb5247eb5245c, type: 2}

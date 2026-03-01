@@ -20,8 +20,6 @@ public class PlayerPhysicsMovement : MonoBehaviour
         // Check for key presses every frame
         moveForward = Input.GetKey(KeyCode.S);
         moveBackward = Input.GetKey(KeyCode.W);
-        moveForward1 = Input.GetKey(KeyCode.DownArrow);
-        moveBackward1 = Input.GetKey(KeyCode.UpArrow);
     }
 
     void FixedUpdate()
