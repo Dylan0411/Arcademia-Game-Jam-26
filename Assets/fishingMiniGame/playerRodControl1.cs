@@ -61,6 +61,11 @@ public class playerRodControl1 : MonoBehaviour
 
     public float elapsedTime3;
 
+    public AudioSource biteSplashSFX;
+    public AudioSource reelSFX;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -114,8 +119,14 @@ public class playerRodControl1 : MonoBehaviour
         //fishCaughtSlider.value = fishCaughtTotal;
         catchFishSlider.value = elapsedTime3;
 
+
+
         if (fishBite == true)
         {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                biteSplashSFX.Play();
+            }
             pullBackCircle.SetActive(true);
             if (rodPulledBack == false)
             {
@@ -175,6 +186,8 @@ public class playerRodControl1 : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
             {
+                reelSFX.Play();
+
                 fishReelCounter++;
                 if (fishReelCounter == 20)//press 20 times to reel fish
                 {
@@ -257,7 +270,6 @@ public class playerRodControl1 : MonoBehaviour
 
                 fishBite = true;
                 Debug.Log("fish bite!");
-
 
             }
         }
