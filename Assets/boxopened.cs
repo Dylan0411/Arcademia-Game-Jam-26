@@ -28,26 +28,28 @@ public class BoxOpener : MonoBehaviour
     public GameObject wallCover;
 
     [Header("Audio")]
-    public AudioSource musicSource;   // The box/scary music
-    public AudioSource otherMusicSource; // The loop to stop
+    public AudioSource musicSource;       // The box/scary music
+    public AudioSource otherMusicSource;  // Optional other music
     public AudioClip ohNoMusic;
     public AudioClip openSound;
 
+    [Header("Looping Sounds While Closed")]
+    public AudioSource loopAudioSource;   // AudioSource for looping sounds while box is closed
+    public AudioClip[] loopClips;         // Array of 3 different sounds
+    public float delayBetweenClips = 5f;  // Delay between closed-loop sounds
+
+    [Header("Single Open Box Sound")]
+    public AudioSource singleOpenAudioSource; // AudioSource to play when box opens
+    public AudioClip singleOpenClip;          // The single sound
+
     private bool isOpened = false;
     private Transform playerTransform;
+    private Coroutine loopingCoroutine;
 
-
-
-
-
+    [Header("UI & Buttons")]
     public GameObject fishingButton;
     public GameObject menu;
     public GameObject startButton;
-
-
-
-
-
 
     void Start()
     {
@@ -57,9 +59,11 @@ public class BoxOpener : MonoBehaviour
         {
             playerTransform = playerObj.transform;
         }
-        else
+
+        // Start looping sounds while box is closed
+        if (!isOpened && loopClips.Length > 0 && loopAudioSource != null)
         {
-            //Debug.LogError("BoxOpener: No object with the tag 'Player' found in the scene!");
+            loopingCoroutine = StartCoroutine(PlayLoopingSounds());
         }
     }
 
@@ -67,26 +71,19 @@ public class BoxOpener : MonoBehaviour
     {
         if (isOpened || playerTransform == null) return;
 
-        // Calculate distance between the Box and the Player
         float dist = Vector3.Distance(transform.position, playerTransform.position);
 
         if (dist <= interactionDistance)
         {
-            // Player is close enough
             if (interactionText != null) interactionText.SetActive(true);
 
-            if (Input.GetKeyDown(interactionKey))
-            {
-                BoxOpened();
-            }
-            else if (Input.GetKeyDown(interactionKey1))
+            if (Input.GetKeyDown(interactionKey) || Input.GetKeyDown(interactionKey1))
             {
                 BoxOpened();
             }
         }
         else
         {
-            // Player is too far away
             if (interactionText != null) interactionText.SetActive(false);
         }
     }
@@ -94,20 +91,35 @@ public class BoxOpener : MonoBehaviour
     public void BoxOpened()
     {
         isOpened = true;
+
         if (interactionText != null) interactionText.SetActive(false);
 
-        // 1. Swap Pupils
+        // Stop closed-loop sounds
+        if (loopingCoroutine != null)
+        {
+            StopCoroutine(loopingCoroutine);
+            loopAudioSource.Stop();
+        }
+
+        // Play single sound after box opens (if menu is inactive)
+        if (singleOpenAudioSource != null && singleOpenClip != null && (menu == null || !menu.activeSelf))
+        {
+            singleOpenAudioSource.clip = singleOpenClip;
+            singleOpenAudioSource.Play();
+        }
+
+        // Swap Pupils
         foreach (GameObject part in normalPupils) part.SetActive(false);
         foreach (GameObject part in deadPupils) part.SetActive(true);
 
-        // 2. Physics: Wall cover falls
+        // Wall cover physics
         if (wallCover != null)
         {
             Rigidbody rb = wallCover.GetComponent<Rigidbody>();
             if (rb != null) rb.isKinematic = false;
         }
 
-        // 3. Audio Swap
+        // Audio Swap
         if (musicSource != null)
         {
             musicSource.Stop();
@@ -124,21 +136,35 @@ public class BoxOpener : MonoBehaviour
 
         AudioSource.PlayClipAtPoint(openSound, transform.position);
 
-        // 4. Start Movements and Shake
+        // Movements and Camera Shake
         StartCoroutine(MoveOverTime(lava.transform, lavaTargetPos));
         StartCoroutine(MoveOverTime(boxLid.transform, lidTargetPos));
         StartCoroutine(ShakeCamera());
 
-
-
-        //////////////Dylan was here
-
+        // Open Menu after delay
         Invoke("openMenu", 10f);
+    }
 
+    IEnumerator PlayLoopingSounds()
+    {
+        int index = 0;
+        while (!isOpened)
+        {
+            // Only play if menu is inactive
+            if (menu != null && !menu.activeSelf)
+            {
+                loopAudioSource.clip = loopClips[index];
+                loopAudioSource.Play();
+                yield return new WaitForSeconds(loopAudioSource.clip.length + delayBetweenClips);
+            }
+            else
+            {
+                // Check again after 1 second if menu is active
+                yield return new WaitForSeconds(1f);
+            }
 
-
-
-
+            index = (index + 1) % loopClips.Length; // Loop through the closed-loop sounds
+        }
     }
 
     IEnumerator ShakeCamera()
@@ -167,21 +193,11 @@ public class BoxOpener : MonoBehaviour
         obj.position = target;
     }
 
-
-
     void openMenu()
     {
-        //pause time
         Time.timeScale = 0f;
-
-        //show menu
         menu.SetActive(true);
-
-        //hide main button
         startButton.SetActive(false);
-
-        //show fish minigame button
         fishingButton.SetActive(true);
     }
-
 }
