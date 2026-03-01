@@ -60,7 +60,7 @@ public class rhythmGame1 : MonoBehaviour
         scoreSlider.value = P2score / maxScore;
 
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             redNote.SetActive(true);
             redHit = false;
@@ -85,7 +85,7 @@ public class rhythmGame1 : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.I))
+        if (Input.GetKeyUp(KeyCode.F))
         {
             redNote.SetActive(false);
             greenScoreFlash.SetActive(false);
@@ -93,7 +93,7 @@ public class rhythmGame1 : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             greenNote.SetActive(true);
             greenHit = false;
@@ -117,14 +117,14 @@ public class rhythmGame1 : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.O))
+        if (Input.GetKeyUp(KeyCode.G))
         {
             greenNote.SetActive(false);
             greenScoreFlash.SetActive(false);
             redScoreFlash.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             blueNote.SetActive(true);
             blueHit = false;
@@ -148,7 +148,7 @@ public class rhythmGame1 : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.H))
         {
             blueNote.SetActive(false);
             greenScoreFlash.SetActive(false);
