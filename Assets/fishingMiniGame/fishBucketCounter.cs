@@ -5,7 +5,6 @@ using System.Collections;
 
 public class fishBucketCounter : MonoBehaviour
 {
-
     public Image targetImage;
     public float fadeDuration = 2f;
 
@@ -50,6 +49,15 @@ public class fishBucketCounter : MonoBehaviour
     public GameObject pRods;
 
     public GameObject tutorial;
+
+    // --- Audio additions ---
+    public AudioSource relicAudioSource;   // AudioSource for relicSFX
+    public AudioClip relicSFX;
+
+    public AudioSource loopAudioSource;    // Separate AudioSource for looping tracks
+    public AudioClip[] loopTracks;         // Array of 3 clips to loop
+
+    private bool audioStarted = false;     // Ensure we trigger audio only once
 
     void Start()
     {
@@ -128,6 +136,24 @@ public class fishBucketCounter : MonoBehaviour
 
             pRods.SetActive(false);
 
+            // --- Play relic audio once and start looping tracks ---
+            if (!audioStarted)
+            {
+                audioStarted = true;
+
+                // Play the one-time relic SFX immediately
+                if (relicAudioSource != null && relicSFX != null)
+                {
+                    relicAudioSource.PlayOneShot(relicSFX);
+                }
+
+                // Start the coroutine to play loop tracks after 5 seconds
+                if (loopAudioSource != null && loopTracks.Length > 0)
+                {
+                    StartCoroutine(PlayLoopTracksWithDelay(6f));
+                }
+            }
+
             if (elapsedTime > 3)
             {
                 if (doOnce1 == true)
@@ -160,6 +186,24 @@ public class fishBucketCounter : MonoBehaviour
             else
             {
                 elapsedTime += Time.deltaTime;
+            }
+        }
+    }
+
+    // --- Coroutine for looping audio tracks ---
+    private IEnumerator PlayLoopTracksWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        while (true)
+        {
+            for (int i = 0; i < loopTracks.Length; i++)
+            {
+                loopAudioSource.clip = loopTracks[i];
+                loopAudioSource.Play();
+
+                yield return new WaitForSeconds(loopAudioSource.clip.length);
+                yield return new WaitForSeconds(4f); // 5-second gap between tracks
             }
         }
     }
