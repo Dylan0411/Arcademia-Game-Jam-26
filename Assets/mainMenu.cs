@@ -70,13 +70,17 @@ public class MainMenu : MonoBehaviour
     {
         if (Keyboard.current == null) return;
 
-        if (Keyboard.current.enterKey.wasPressedThisFrame ||
-            Keyboard.current.backspaceKey.wasPressedThisFrame)
+        // Only register input if the menu is active
+        if (Menu != null && Menu.activeSelf)
         {
-            if (counter < 1)
-                StartGame();
-            else
-                StartFishing();
+            if (Keyboard.current.enterKey.wasPressedThisFrame ||
+                Keyboard.current.backspaceKey.wasPressedThisFrame)
+            {
+                if (counter < 1)
+                    StartGame();
+                else
+                    StartFishing();
+            }
         }
     }
 
