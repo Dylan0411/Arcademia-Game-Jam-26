@@ -124,7 +124,7 @@ public class playerRodControl : MonoBehaviour
 
         if (fishBite == true)
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.S))
             {
                 biteSplashSFX.Play();
             }
@@ -164,7 +164,7 @@ public class playerRodControl : MonoBehaviour
         }
         if (fishCaught == false)
         {
-            if (Input.GetKey(KeyCode.DownArrow) && fishBite == true)
+            if (Input.GetKey(KeyCode.S) && fishBite == true)
             {
                 waitingForFishCircle.SetActive(false);
                 pullBackCircle.SetActive(false);
@@ -180,12 +180,12 @@ public class playerRodControl : MonoBehaviour
                 rodPulledBack = false;
             }
 
-            if (Input.GetKeyUp(KeyCode.Z) && fishBite == true)
+            if (Input.GetKeyUp(KeyCode.G) && fishBite == true)
             {
                 elapsedTime1 = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.Z) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
+            if (Input.GetKeyDown(KeyCode.G) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
             {
                 reelSFX.Play();
                 fishReelCounter++;

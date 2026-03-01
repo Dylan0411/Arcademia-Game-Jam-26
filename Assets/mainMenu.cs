@@ -73,8 +73,8 @@ public class MainMenu : MonoBehaviour
         // Only register input if the menu is active
         if (Menu != null && Menu.activeSelf)
         {
-            if (Keyboard.current.enterKey.wasPressedThisFrame ||
-                Keyboard.current.backspaceKey.wasPressedThisFrame)
+            // Use only spacebar instead of enter/backspace
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 if (counter < 1)
                     StartGame();
