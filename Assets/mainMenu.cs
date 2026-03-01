@@ -1,52 +1,69 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class mainMenu : MonoBehaviour
 {
-
     public GameObject Menu;
     public GameObject startButton;
     public GameObject fishingButton;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private int counter = 0; // track how many times Enter was pressed
+
     void Start()
     {
-        //start paused
+        // start paused
         Time.timeScale = 0f;
 
-        //menu visible
+        // menu visible
         Menu.SetActive(true);
 
-        //fish menu game button gone
+        // fishing button hidden initially
         fishingButton.SetActive(false);
 
-        //play button visible
+        // play/start button visible
         startButton.SetActive(true);
     }
 
-
-
+    void Update()
+    {
+        // Check if Enter key is pressed
+        if (Keyboard.current.enterKey.wasPressedThisFrame)
+        {
+            if (counter < 1)
+            {
+                startGame();
+                counter++;
+                // Optionally make the fishing button visible after first press
+                fishingButton.SetActive(true);
+            }
+            else
+            {
+                startFishing();
+            }
+        }
+    }
 
     public void startGame()
     {
-        //play time
+        // resume time
         Time.timeScale = 1f;
-        //hide menu
+
+        // hide menu
         Menu.SetActive(false);
+
+        Debug.Log("Game Started!");
     }
 
     public void startFishing()
     {
-        //start time up again
+        // resume time
         Time.timeScale = 1f;
+
+        // load fishing mini-game scene
         SceneManager.LoadScene("fishing mini-game");
+
+        Debug.Log("Fishing Mini-game Started!");
     }
-
-
-
-    //infrank pandora script:
-    //invoke main menui 5ish seconds after box is open
-        //pauses time
-        //shows menu canvas
-
 }

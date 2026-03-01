@@ -6,7 +6,8 @@ public class BoxOpener : MonoBehaviour
     [Header("Interaction Settings")]
     public GameObject interactionText;
     public float interactionDistance = 3.5f; // How close the player needs to be
-    public KeyCode interactionKey = KeyCode.X;
+    public KeyCode interactionKey = KeyCode.Z;
+    public KeyCode interactionKey1 = KeyCode.F;
 
     [Header("Movement Settings")]
     public float transitionTime = 3.0f;
@@ -75,6 +76,10 @@ public class BoxOpener : MonoBehaviour
             if (interactionText != null) interactionText.SetActive(true);
 
             if (Input.GetKeyDown(interactionKey))
+            {
+                BoxOpened();
+            }
+            if (Input.GetKeyDown(interactionKey1))
             {
                 BoxOpened();
             }
