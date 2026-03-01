@@ -1,10 +1,7 @@
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
-
-
 
 public class fishBucketCounter : MonoBehaviour
 {
@@ -46,18 +43,18 @@ public class fishBucketCounter : MonoBehaviour
     public float elapsedTime;
     public float elapsedTime1;
 
-
     public bool doOnce;
     public bool doOnce1;
     public bool doOnce2;
 
-
     public GameObject pRods;
 
+    public GameObject tutorial;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        StartCoroutine(StartTutorial());
+
         Ice.SetActive(false);
         fishCaughtSlider.value = 0;
         pRodScript.enabled = true;
@@ -74,20 +71,24 @@ public class fishBucketCounter : MonoBehaviour
         doOnce1 = true;
         doOnce2 = true;
 
-        
         relic.GetComponent<Rigidbody>().isKinematic = true;
-
         relic.SetActive(false);
-
         pRods.SetActive(true);
-
-
     }
 
-    // Update is called once per frame
+    IEnumerator StartTutorial()
+    {
+        Time.timeScale = 0f;
+        tutorial.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(10f);
+
+        tutorial.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
     void Update()
     {
-
         if (fadeScreen && !isFading)
         {
             isFading = true;
@@ -95,17 +96,18 @@ public class fishBucketCounter : MonoBehaviour
         }
 
         fishCaughtSlider.value = playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal;
+
         if (playerRodControl1.fishCaughtTotal + playerRodControl.fishCaughtTotal > 10)
         {
-
-            //disable both fishing scripts + ui disappears
             pRodScript.enabled = false;
             pRodScript1.enabled = false;
             fishingUI.SetActive(false);
             relic.SetActive(true);
-            //relic comes out of fish bucket w/ splash effect
-            relic.transform.position = Vector3.MoveTowards(relic.transform.position, relicEndPos.transform.position, 5 * Time.deltaTime);
 
+            relic.transform.position = Vector3.MoveTowards(
+                relic.transform.position,
+                relicEndPos.transform.position,
+                5 * Time.deltaTime);
 
             if (elapsedTime1 > 3)
             {
@@ -124,31 +126,22 @@ public class fishBucketCounter : MonoBehaviour
                 doOnce = false;
             }
 
-            //hideRods
             pRods.SetActive(false);
-
-
-
-            ///////WAIT 3 SECONDS//////
 
             if (elapsedTime > 3)
             {
-
-
-                // "cursed loot gained" message as new ui message
                 if (doOnce1 == true)
                 {
                     cursedLootUI.SetActive(true);
                     doOnce1 = false;
                 }
+
                 Invoke("hideCursedLootPopUp", 5);
 
-                // water freezes over into ice
-                Ice.SetActive(true); //<<<<<<<<DONT FORGET TO MAKE SLIPPY/BOUNCY
+                Ice.SetActive(true);
 
                 if (doOnce2 == true)
                 {
-                    //fish fall from sky onto ice (instantiate loads)
                     InstantiateFish();
                     Invoke("InstantiateFish", 1f);
                     Invoke("InstantiateFish", 2f);
@@ -160,7 +153,6 @@ public class fishBucketCounter : MonoBehaviour
                     Invoke("InstantiateFish", 8f);
                     Invoke("InstantiateFish", 9f);
 
-                    //fade screen to black
                     Invoke("fadeToBlack", 15f);
                     doOnce2 = false;
                 }
@@ -169,13 +161,8 @@ public class fishBucketCounter : MonoBehaviour
             {
                 elapsedTime += Time.deltaTime;
             }
-
-         
-
         }
     }
-
-
 
     public void hideCursedLootPopUp()
     {
@@ -196,24 +183,19 @@ public class fishBucketCounter : MonoBehaviour
 
     public void fadeToBlack()
     {
-
         fadeScreen = true;
-
     }
-
 
     public void sceneChange()
     {
         SceneManager.LoadScene("CarpHero");
-
     }
 
     private IEnumerator FadeToBlackAndLoad()
     {
         yield return StartCoroutine(FadeImage(0f, 1f));
 
-        // Wait an extra 2 seconds
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
 
         SceneManager.LoadScene("CarpHero");
     }
@@ -225,7 +207,7 @@ public class fishBucketCounter : MonoBehaviour
 
         while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             color.a = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeDuration);
             targetImage.color = color;
             yield return null;
@@ -234,5 +216,4 @@ public class fishBucketCounter : MonoBehaviour
         color.a = endAlpha;
         targetImage.color = color;
     }
-
 }
