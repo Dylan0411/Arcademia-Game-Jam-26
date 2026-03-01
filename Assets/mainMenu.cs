@@ -9,7 +9,7 @@ public class mainMenu : MonoBehaviour
     public GameObject startButton;
     public GameObject fishingButton;
 
-    private int counter = 0; // track how many times Enter was pressed
+    private int counter = 0; // track how many times Enter/Backspace was pressed
 
     void Start()
     {
@@ -28,8 +28,8 @@ public class mainMenu : MonoBehaviour
 
     void Update()
     {
-        // Check if Enter key is pressed
-        if (Keyboard.current.enterKey.wasPressedThisFrame)
+        // Check if Enter or Backspace key is pressed
+        if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame)
         {
             if (counter < 1)
             {
