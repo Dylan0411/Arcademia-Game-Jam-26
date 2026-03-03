@@ -61,6 +61,9 @@ public class playerRodControl : MonoBehaviour
     public AudioSource biteSplashSFX;
     public AudioSource reelSFX;
 
+    // NEW: reel text for reeling prompt
+    public GameObject reelText;
+
     void Start()
     {
         speed = 2;
@@ -96,6 +99,10 @@ public class playerRodControl : MonoBehaviour
         elapsedTime2 = 0f;
         SplashOnce = true;
         elapsedTime3 = 0f;
+
+        // hide reelText at start
+        if (reelText != null)
+            reelText.SetActive(false);
     }
 
     void Update()
@@ -126,6 +133,7 @@ public class playerRodControl : MonoBehaviour
                 defaultRod();
                 fishLostPopup.SetActive(true);
                 pullBackCircle.SetActive(false);
+                if (reelText != null) reelText.SetActive(false);
                 Invoke("hideLostFishPopupMessage", 2f);
             }
             else
@@ -147,6 +155,10 @@ public class playerRodControl : MonoBehaviour
 
             if (rodPulledBack && fishBite)
             {
+                // show reel text while reeling
+                if (reelText != null)
+                    reelText.SetActive(elapsedTime3 < 4f);
+
                 if (Input.GetKey(KeyCode.S))
                 {
                     pullBackCircle.SetActive(false);
@@ -159,11 +171,14 @@ public class playerRodControl : MonoBehaviour
                     waitingForFishCircle.SetActive(true);
                     pullBackCircle.SetActive(false);
                     runTimer = true;
+                    if (reelText != null)
+                        reelText.SetActive(false);
                 }
             }
             else
             {
                 fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * Time.deltaTime);
+                if (reelText != null) reelText.SetActive(false);
             }
 
             if (Input.GetKeyUp(KeyCode.G) && fishBite && rodPulledBack)
@@ -178,6 +193,7 @@ public class playerRodControl : MonoBehaviour
                     fishCaught = true;
                     moveRodToBucket = true;
                     fishCaughtPopup.SetActive(true);
+                    if (reelText != null) reelText.SetActive(false);
                     CancelInvoke("hideLostFishPopupMessage");
                     Debug.Log("fish caught!");
                 }
@@ -193,6 +209,7 @@ public class playerRodControl : MonoBehaviour
                 fish.SetActive(true);
                 waitingForFishCircle.SetActive(false);
                 pullBackCircle.SetActive(false);
+                if (reelText != null) reelText.SetActive(false);
 
                 fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, fishCaughtLocRot.transform.position, speed * Time.deltaTime);
                 fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, fishCaughtLocRot.transform.rotation, speed * 2f * Time.deltaTime);
@@ -268,6 +285,7 @@ public class playerRodControl : MonoBehaviour
         pullBackCircle.SetActive(false);
         fishBite = false;
         rodPulledBack = false;
+        if (reelText != null) reelText.SetActive(false);
     }
 
     void defaultRod()
@@ -295,5 +313,6 @@ public class playerRodControl : MonoBehaviour
         elapsedTime3 = 0f;
         fishLostPopup.SetActive(false);
         rodPulledBack = false;
+        if (reelText != null) reelText.SetActive(false);
     }
 }
