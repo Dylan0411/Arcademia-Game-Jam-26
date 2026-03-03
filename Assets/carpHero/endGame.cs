@@ -30,7 +30,8 @@ public class endGame : MonoBehaviour
         Invoke("unfadeInitial", 3f);
 
 
-        Invoke("gameEnd", gameLength);
+        Invoke("gameEnd", gameLength+3);
+        Invoke("fadeToBlackFunc", gameLength);
         Invoke("quitGame", gameLength + 10f);
     }
 
@@ -71,6 +72,10 @@ public class endGame : MonoBehaviour
             TieText.SetActive(true);
         }
 
+    }
+
+    void fadeToBlackFunc()
+    {
         fadeToBlack = true;
     }
 
