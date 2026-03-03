@@ -14,7 +14,7 @@ public class playerRodControl1 : MonoBehaviour
 
     public GameObject fish;
     public GameObject fishDownPos;
-    public GameObject fishUpPos;    
+    public GameObject fishUpPos;
 
     bool runTimer;
 
@@ -89,8 +89,8 @@ public class playerRodControl1 : MonoBehaviour
 
         rodPulledBack = false;
 
-        moveRodToBucket = false;   
-    
+        moveRodToBucket = false;
+
         fishCaughtPopup.SetActive(false);
         fishLostPopup.SetActive(false);
 
@@ -100,7 +100,7 @@ public class playerRodControl1 : MonoBehaviour
         waitingForFishCircle.SetActive(true);
         pullBackCircle.SetActive(false);
 
-        fish.transform.position =fishDownPos.transform.position;   
+        fish.transform.position = fishDownPos.transform.position;
         fish.SetActive(false);
 
         moveRodFromBucket = false;
@@ -139,47 +139,72 @@ public class playerRodControl1 : MonoBehaviour
 
             }
 
-            //begin 4 second timer
-            //make slider represent this value
-
-
+            // The M-tap race timer now only runs while the rod is actively pulled back.
+            if (rodPulledBack == true)
+            {
+                elapsedTime3 += Time.deltaTime;
+            }
 
             if (elapsedTime3 > 4 && fishCaught == false)
             {
                 defaultRod();
                 fishLostPopup.SetActive(true);
-                pullBackCircle.SetActive (false);
+                pullBackCircle.SetActive(false);
                 Invoke("hideLostFishPopupMessage", 2f);
-                
+
             }
             else
             {
                 CancelInvoke("hideLostFishPopupMessage");
-                elapsedTime3 += Time.deltaTime;
-                
+                // elapsedTime3 is advanced only when rodPulledBack is true (above)
             }
 
 
         }
         if (fishCaught == false)
         {
-            if (Input.GetKey(KeyCode.DownArrow) && fishBite == true)
+            // --- Prevent pre-pull: only start a pull on a fresh press after the bite ---
+            if (fishBite == true && rodPulledBack == false)
             {
-                waitingForFishCircle.SetActive(false);
-                pullBackCircle.SetActive(false);
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    waitingForFishCircle.SetActive(false);
+                    pullBackCircle.SetActive(false);
 
-                rodPulledBack = true;
-                runTimer = false;
-                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, reelFishRodRotation.transform.rotation, speed * Time.deltaTime);
+                    rodPulledBack = true;
+                    runTimer = false;
+                    // DO NOT reset elapsedTime3 here — we pause/resume instead of resetting
+                }
+            }
+
+            // While pulled back, require the player to keep holding the key.
+            if (rodPulledBack && fishBite == true)
+            {
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    // Player is holding the key after initiating the pull: hide indicators and rotate rod.
+                    pullBackCircle.SetActive(false);
+                    waitingForFishCircle.SetActive(false);
+                    fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, reelFishRodRotation.transform.rotation, speed * Time.deltaTime);
+                }
+                else
+                {
+                    // Player released the hold: cancel pulled-back state and show waiting indicator again.
+                    rodPulledBack = false;
+                    waitingForFishCircle.SetActive(true);
+                    pullBackCircle.SetActive(false);
+                    runTimer = true;
+                    // elapsedTime3 is paused here (we do not change its value)
+                }
             }
             else
             {
+                // Not pulled back: show default rod rotation.
                 fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * Time.deltaTime);
-                rodPulledBack = false;
-                rodPulledBack = false;
             }
 
-            if (Input.GetKeyUp(KeyCode.M) && fishBite == true)
+            // Only reset elapsedTime1 when the player actually had the rod pulled back and releases M.
+            if (Input.GetKeyUp(KeyCode.M) && fishBite == true && rodPulledBack == true)
             {
                 elapsedTime1 = 0;
             }
@@ -217,13 +242,13 @@ public class playerRodControl1 : MonoBehaviour
                 elapsedTime2 += Time.deltaTime;
                 if (elapsedTime2 > 1)
                 {
-                    if(SplashOnce == true)
+                    if (SplashOnce == true)
                     {
                         Instantiate(waterSplash, fish.transform.position, transform.rotation);
                         SplashOnce = false;
                         fishCaughtTotal++;
                     }
-                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed/2 * Time.deltaTime);
+                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed / 2 * Time.deltaTime);
                 }
                 else
                 {
@@ -232,7 +257,7 @@ public class playerRodControl1 : MonoBehaviour
             }
             if (moveRodFromBucket)
             {
-                fish.SetActive (false);
+                fish.SetActive(false);
                 elapsedTime2 = 0f;
 
                 fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, defaultRodRotLoc.transform.position, speed * Time.deltaTime);
@@ -242,10 +267,9 @@ public class playerRodControl1 : MonoBehaviour
 
             }
 
-
             if (doOnce == true)
             {
-               
+
                 fish.SetActive(false);
                 doOnce = false;
 
@@ -276,10 +300,6 @@ public class playerRodControl1 : MonoBehaviour
 
 
 
-
-
-
-
     }
 
     void hideLostFishPopupMessage()
@@ -290,12 +310,13 @@ public class playerRodControl1 : MonoBehaviour
     {
         fishCaughtTotal++;
     }
-     void moveRodBack()
+    void moveRodBack()
     {
         moveRodToBucket = false;
         moveRodFromBucket = true;
         pullBackCircle.SetActive(false);
         fishBite = false;
+        rodPulledBack = false; // ensure state resets when moving back
     }
 
     void defaultRod()
@@ -323,22 +344,10 @@ public class playerRodControl1 : MonoBehaviour
         fish.transform.position = fishDownPos.transform.position;
 
         SplashOnce = true;
-        elapsedTime3 = 0f;
+        elapsedTime3 = 0f; // reset when the bite cycle ends
         fishLostPopup.SetActive(false);
+        rodPulledBack = false; // ensure rodPulledBack cleared on reset
 
     }
 
 }
-
-
-
-
-
-
-
-// when 5 fish are caught, next fish is the relic.
-
-
-//add bouncy fish and slippery fish
-
-//apply arcade control scheme

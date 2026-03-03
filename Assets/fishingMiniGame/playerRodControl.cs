@@ -1,10 +1,8 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
 public class playerRodControl : MonoBehaviour
 {
-
     public GameObject defaultRodRotLoc;
     public GameObject reelFishRodRotation;
     public GameObject fishingRod;
@@ -15,7 +13,7 @@ public class playerRodControl : MonoBehaviour
 
     public GameObject fish;
     public GameObject fishDownPos;
-    public GameObject fishUpPos;    
+    public GameObject fishUpPos;
 
     bool runTimer;
 
@@ -41,8 +39,6 @@ public class playerRodControl : MonoBehaviour
 
     public static int fishCaughtTotal;
 
-    //public Slider fishCaughtSlider;
-
     public bool doOnce;
 
     public GameObject fishLostPopup;
@@ -63,35 +59,26 @@ public class playerRodControl : MonoBehaviour
     public float elapsedTime3;
 
     public AudioSource biteSplashSFX;
-
     public AudioSource reelSFX;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         speed = 2;
         fishingRod.transform.rotation = defaultRodRotLoc.transform.rotation;
         fishingRod.transform.position = defaultRodRotLoc.transform.position;
 
-
         elapsedTime0 = 0f;
         elapsedTime1 = 0f;
 
         runTimer = true;
-
         fishBite = false;
-
         timerLength = Random.Range(2f, 5f);
 
         fishReelCounter = 0;
-
         fishCaught = false;
-
         rodPulledBack = false;
+        moveRodToBucket = false;
 
-        moveRodToBucket = false;   
-    
         fishCaughtPopup.SetActive(false);
         fishLostPopup.SetActive(false);
 
@@ -101,214 +88,197 @@ public class playerRodControl : MonoBehaviour
         waitingForFishCircle.SetActive(true);
         pullBackCircle.SetActive(false);
 
-        fish.transform.position =fishDownPos.transform.position;   
+        fish.transform.position = fishDownPos.transform.position;
         fish.SetActive(false);
 
         moveRodFromBucket = false;
 
         elapsedTime2 = 0f;
-
         SplashOnce = true;
-
         elapsedTime3 = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         fishingSlider.value = fishReelCounter;
-        //fishCaughtSlider.value = fishCaughtTotal;
         catchFishSlider.value = elapsedTime3;
 
-
-
-        if (fishBite == true)
+        if (fishBite)
         {
             if (Input.GetKeyDown(KeyCode.S))
-            {
                 biteSplashSFX.Play();
-            }
+
             pullBackCircle.SetActive(true);
-            if (rodPulledBack == false)
+
+            if (!rodPulledBack)
             {
                 elapsedTime1 += Time.deltaTime;
-                PullBackImage.fillAmount = 1f - (elapsedTime1 / 3);
-                if (elapsedTime1 > 3)
-                {
+                PullBackImage.fillAmount = 1f - (elapsedTime1 / 3f);
+                if (elapsedTime1 > 3f)
                     defaultRod();
-                }
-
             }
 
-            //begin 4 second timer
-            //make slider represent this value
+            if (rodPulledBack)
+                elapsedTime3 += Time.deltaTime;
 
-
-
-            if (elapsedTime3 > 4 && fishCaught == false)
+            if (elapsedTime3 > 4f && !fishCaught)
             {
                 defaultRod();
                 fishLostPopup.SetActive(true);
-                pullBackCircle.SetActive (false);
+                pullBackCircle.SetActive(false);
                 Invoke("hideLostFishPopupMessage", 2f);
-                
             }
             else
             {
                 CancelInvoke("hideLostFishPopupMessage");
-                elapsedTime3 += Time.deltaTime;
-                
             }
-
-
         }
-        if (fishCaught == false)
+
+        if (!fishCaught)
         {
-            if (Input.GetKey(KeyCode.S) && fishBite == true)
+            // Only allow pull after bite
+            if (fishBite && !rodPulledBack && Input.GetKeyDown(KeyCode.S))
             {
                 waitingForFishCircle.SetActive(false);
                 pullBackCircle.SetActive(false);
-
                 rodPulledBack = true;
                 runTimer = false;
-                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, reelFishRodRotation.transform.rotation, speed * Time.deltaTime);
+            }
+
+            if (rodPulledBack && fishBite)
+            {
+                if (Input.GetKey(KeyCode.S))
+                {
+                    pullBackCircle.SetActive(false);
+                    waitingForFishCircle.SetActive(false);
+                    fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, reelFishRodRotation.transform.rotation, speed * Time.deltaTime);
+                }
+                else
+                {
+                    rodPulledBack = false;
+                    waitingForFishCircle.SetActive(true);
+                    pullBackCircle.SetActive(false);
+                    runTimer = true;
+                }
             }
             else
             {
                 fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * Time.deltaTime);
-                rodPulledBack = false;
-                rodPulledBack = false;
             }
 
-            if (Input.GetKeyUp(KeyCode.G) && fishBite == true)
-            {
-                elapsedTime1 = 0;
-            }
+            if (Input.GetKeyUp(KeyCode.G) && fishBite && rodPulledBack)
+                elapsedTime1 = 0f;
 
-            if (Input.GetKeyDown(KeyCode.G) && fishBite == true && rodPulledBack == true && elapsedTime3 < 4)
+            if (Input.GetKeyDown(KeyCode.G) && fishBite && rodPulledBack && elapsedTime3 < 4f)
             {
                 reelSFX.Play();
                 fishReelCounter++;
-                if (fishReelCounter == 20)//press 20 times to reel fish
+                if (fishReelCounter >= 20)
                 {
                     fishCaught = true;
                     moveRodToBucket = true;
-                    Debug.Log("fish caught!");
                     fishCaughtPopup.SetActive(true);
                     CancelInvoke("hideLostFishPopupMessage");
-
+                    Debug.Log("fish caught!");
                 }
-
             }
         }
-        if (fishCaught == true)
+
+        if (fishCaught)
         {
-            catchFishSlider.value = 0;
-            if (moveRodToBucket == true)
+            catchFishSlider.value = 0f;
+
+            if (moveRodToBucket)
             {
                 fish.SetActive(true);
                 waitingForFishCircle.SetActive(false);
                 pullBackCircle.SetActive(false);
-                //move fish to buckets loc and rot
-                fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, fishCaughtLocRot.transform.position, speed * Time.deltaTime);
-                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, fishCaughtLocRot.transform.rotation, speed * 2 * Time.deltaTime);
 
+                fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, fishCaughtLocRot.transform.position, speed * Time.deltaTime);
+                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, fishCaughtLocRot.transform.rotation, speed * 2f * Time.deltaTime);
 
                 elapsedTime2 += Time.deltaTime;
-                if (elapsedTime2 > 1)
+
+                if (elapsedTime2 > 1f)
                 {
-                    if(SplashOnce == true)
+                    if (SplashOnce)
                     {
                         Instantiate(waterSplash, fish.transform.position, transform.rotation);
                         SplashOnce = false;
                         fishCaughtTotal++;
                     }
-                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed/2 * Time.deltaTime);
+
+                    fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishDownPos.transform.position, speed / 2f * Time.deltaTime);
                 }
                 else
                 {
                     fish.transform.position = Vector3.MoveTowards(fish.transform.position, fishUpPos.transform.position, speed * Time.deltaTime);
                 }
             }
+
             if (moveRodFromBucket)
             {
-                fish.SetActive (false);
+                fish.SetActive(false);
                 elapsedTime2 = 0f;
 
                 fishingRod.transform.position = Vector3.MoveTowards(fishingRod.transform.position, defaultRodRotLoc.transform.position, speed * Time.deltaTime);
-                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 2 * Time.deltaTime);
-
-
-
+                fishingRod.transform.rotation = Quaternion.Slerp(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 2f * Time.deltaTime);
             }
 
-
-            if (doOnce == true)
+            if (doOnce)
             {
-               
                 fish.SetActive(false);
                 doOnce = false;
-
             }
-            Invoke("moveRodBack", 4);
-            //splash effect<<<<<<<<<<<<<<<<<<<<<<
-            Invoke("defaultRod", 6);
+
+            Invoke("moveRodBack", 4f);
+            Invoke("defaultRod", 6f);
         }
         else
         {
             fish.SetActive(false);
         }
 
-
-
-        if (runTimer == true) // SET TRUE WHEN FISH IS IN BUCKET OR FISH LOST
+        if (runTimer)
         {
             elapsedTime0 += Time.deltaTime;
             if (elapsedTime0 > timerLength)
             {
-                fishingRod.transform.rotation = Quaternion.RotateTowards(fishingRod.transform.rotation, fishPullRodRotation.transform.rotation, speed * 50 * Time.deltaTime);
-
+                fishingRod.transform.rotation = Quaternion.RotateTowards(fishingRod.transform.rotation, fishPullRodRotation.transform.rotation, speed * 50f * Time.deltaTime);
                 fishBite = true;
                 Debug.Log("fish bite!");
-
             }
         }
-
-
-
-
-
-
-
     }
 
     void hideLostFishPopupMessage()
     {
         fishLostPopup.SetActive(false);
     }
+
     void fishCaughtFunc()
     {
         fishCaughtTotal++;
     }
-     void moveRodBack()
+
+    void moveRodBack()
     {
         moveRodToBucket = false;
         moveRodFromBucket = true;
         pullBackCircle.SetActive(false);
         fishBite = false;
+        rodPulledBack = false;
     }
 
     void defaultRod()
     {
-        //make this trigger only once
-        fishingRod.transform.rotation = Quaternion.RotateTowards(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 50 * Time.deltaTime);
+        fishingRod.transform.rotation = Quaternion.RotateTowards(fishingRod.transform.rotation, defaultRodRotLoc.transform.rotation, speed * 50f * Time.deltaTime);
         elapsedTime0 = 0f;
         fishBite = false;
         timerLength = Random.Range(2f, 5f);
         runTimer = true;
         fishCaught = false;
         fishReelCounter = 0;
-        Debug.Log("RESET!");
         fishCaughtPopup.SetActive(false);
         doOnce = true;
         elapsedTime1 = 0f;
@@ -321,13 +291,9 @@ public class playerRodControl : MonoBehaviour
         moveRodFromBucket = false;
 
         fish.transform.position = fishDownPos.transform.position;
-
         SplashOnce = true;
         elapsedTime3 = 0f;
         fishLostPopup.SetActive(false);
-
+        rodPulledBack = false;
     }
-
 }
-
-
