@@ -72,7 +72,7 @@ public class rhythmGame1 : MonoBehaviour
             else
             {
                 Debug.Log("miss!");
-                P2score--;
+                P2score = Mathf.Max(P2score - 1, 0); // clamp at 0
                 redHit = true; // prevent double penalty
 
                 greenScoreFlash.SetActive(false);
@@ -105,7 +105,7 @@ public class rhythmGame1 : MonoBehaviour
             else
             {
                 Debug.Log("miss!");
-                P2score--;
+                P2score = Mathf.Max(P2score - 1, 0);
                 greenHit = true;
 
                 greenScoreFlash.SetActive(false);
@@ -138,7 +138,7 @@ public class rhythmGame1 : MonoBehaviour
             else
             {
                 Debug.Log("miss!");
-                P2score--;
+                P2score = Mathf.Max(P2score - 1, 0);
                 blueHit = true;
 
                 greenScoreFlash.SetActive(false);
@@ -185,7 +185,7 @@ public class rhythmGame1 : MonoBehaviour
             if (!redHit)
             {
                 Debug.Log("Missed without attempt!");
-                P2score--;
+                P2score = Mathf.Max(P2score - 1, 0);
 
                 redScoreFlash.SetActive(true);
                 badNote.Play();
@@ -200,7 +200,7 @@ public class rhythmGame1 : MonoBehaviour
             if (!greenHit)
             {
                 Debug.Log("Missed without attempt!");
-                P2score--;
+                P2score = Mathf.Max(P2score - 1, 0);
 
                 redScoreFlash.SetActive(true);
                 badNote.Play();
@@ -215,7 +215,7 @@ public class rhythmGame1 : MonoBehaviour
             if (!blueHit)
             {
                 Debug.Log("Missed without attempt!");
-                P2score--;
+                P2score = Mathf.Max(P2score - 1, 0);
 
                 redScoreFlash.SetActive(true);
                 badNote.Play();
