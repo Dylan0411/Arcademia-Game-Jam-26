@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class rhythmGame1 : MonoBehaviour
 {
-
     public GameObject redNote;
     public GameObject greenNote;
     public GameObject blueNote;
@@ -26,7 +25,7 @@ public class rhythmGame1 : MonoBehaviour
     public AudioSource babyShark;
     public AudioSource badNote;
 
-    // NEW: track if note was hit
+    // Track if CURRENT note was hit
     private bool redHit;
     private bool greenHit;
     private bool blueHit;
@@ -39,8 +38,6 @@ public class rhythmGame1 : MonoBehaviour
 
         greenScoreFlash.SetActive(false);
         redScoreFlash.SetActive(false);
-
-        P2score = 0;
 
         redInside = false;
         blueInside = false;
@@ -55,30 +52,29 @@ public class rhythmGame1 : MonoBehaviour
 
     void Update()
     {
-
         p2ScoreText.text = P2score.ToString();
         scoreSlider.value = P2score / maxScore;
 
-
+        // RED (J)
         if (Input.GetKeyDown(KeyCode.J))
         {
             redNote.SetActive(true);
-            redHit = false;
 
             if (redInside)
             {
                 Debug.Log("SCORE!!!");
                 P2score++;
                 redHit = true;
+
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
-
             }
             else
             {
                 Debug.Log("miss!");
                 P2score--;
-                redHit = true;
+                redHit = true; // prevent double penalty
+
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
                 badNote.Play();
@@ -92,17 +88,17 @@ public class rhythmGame1 : MonoBehaviour
             redScoreFlash.SetActive(false);
         }
 
-
+        // GREEN (K)
         if (Input.GetKeyDown(KeyCode.K))
         {
             greenNote.SetActive(true);
-            greenHit = false;
 
             if (greenInside)
             {
                 Debug.Log("SCORE!!!");
                 P2score++;
                 greenHit = true;
+
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
             }
@@ -111,6 +107,7 @@ public class rhythmGame1 : MonoBehaviour
                 Debug.Log("miss!");
                 P2score--;
                 greenHit = true;
+
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
                 badNote.Play();
@@ -124,16 +121,17 @@ public class rhythmGame1 : MonoBehaviour
             redScoreFlash.SetActive(false);
         }
 
+        // BLUE (L)
         if (Input.GetKeyDown(KeyCode.L))
         {
             blueNote.SetActive(true);
-            blueHit = false;
 
             if (blueInside)
             {
                 Debug.Log("SCORE!!!");
                 P2score++;
                 blueHit = true;
+
                 redScoreFlash.SetActive(false);
                 greenScoreFlash.SetActive(true);
             }
@@ -142,6 +140,7 @@ public class rhythmGame1 : MonoBehaviour
                 Debug.Log("miss!");
                 P2score--;
                 blueHit = true;
+
                 greenScoreFlash.SetActive(false);
                 redScoreFlash.SetActive(true);
                 badNote.Play();
@@ -161,14 +160,19 @@ public class rhythmGame1 : MonoBehaviour
         if (other.CompareTag("redNote"))
         {
             redInside = true;
+            redHit = false; // reset per note
         }
+
         if (other.CompareTag("greenNote"))
         {
             greenInside = true;
+            greenHit = false;
         }
+
         if (other.CompareTag("blueNote"))
         {
             blueInside = true;
+            blueHit = false;
         }
     }
 
@@ -177,33 +181,44 @@ public class rhythmGame1 : MonoBehaviour
         if (other.CompareTag("redNote"))
         {
             redInside = false;
+
             if (!redHit)
             {
                 Debug.Log("Missed without attempt!");
                 P2score--;
+
                 redScoreFlash.SetActive(true);
+                badNote.Play();
                 Invoke("HideRedFlash", 0.5f);
             }
         }
+
         if (other.CompareTag("greenNote"))
         {
             greenInside = false;
+
             if (!greenHit)
             {
                 Debug.Log("Missed without attempt!");
                 P2score--;
+
                 redScoreFlash.SetActive(true);
+                badNote.Play();
                 Invoke("HideRedFlash", 0.5f);
             }
         }
+
         if (other.CompareTag("blueNote"))
         {
             blueInside = false;
+
             if (!blueHit)
             {
                 Debug.Log("Missed without attempt!");
                 P2score--;
+
                 redScoreFlash.SetActive(true);
+                badNote.Play();
                 Invoke("HideRedFlash", 0.5f);
             }
         }
